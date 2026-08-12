@@ -725,3 +725,8 @@ p  { line-height: 1.7; }
   justify-content: center;
   animation: fadeIn 0.2s ease;
 }
+
+.blog-card-hover:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md) !important;
+}
