@@ -6,6 +6,7 @@ import Image from 'next/image'
 import { supabase } from '@/lib/supabase'
 import { formatPrice, calcSavings } from '@/lib/utils'
 import type { Product } from '@/lib/supabase'
+import { toggleProductActiveAction, deleteProductAction } from '@/app/admin/actions'
 
 function calcMargin(price: number, jemla: number | null): string {
   if (!jemla || jemla <= 0 || price <= 0) return '—'
@@ -39,14 +40,12 @@ export default function AdminProductsPage() {
   useEffect(() => { fetchProducts() }, [fetchProducts])
 
   async function toggleActive(id: string, current: boolean) {
-    const { toggleProductActiveAction } = await import('@/app/admin/actions')
     await toggleProductActiveAction(id, current)
     setProducts(prev => prev.map(p => p.id === id ? { ...p, is_active: !current } : p))
   }
 
   async function deleteProduct(id: string, name: string) {
     if (!confirm(`هل أنت متأكد من حذف "${name}"؟`)) return
-    const { deleteProductAction } = await import('@/app/admin/actions')
     await deleteProductAction(id)
     setProducts(prev => prev.filter(p => p.id !== id))
   }

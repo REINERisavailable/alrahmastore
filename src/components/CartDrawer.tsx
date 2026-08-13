@@ -145,16 +145,14 @@ export default function CartDrawer() {
               )}
             </div>
 
-            {items.length > 0 && (
+            {items.length > 0 && subtotal < 100 && (
               <div className={styles.upsell}>
                 <p className={styles.upsellText}>
-                  {isFreeShipping ? ' التوصيل مجاني' : `أضف ${formatPrice(100 - subtotal)} للحصول على توصيل مجاني!`}
+                  الحد الأدنى للطلب هو 100 دهـ (أضف {formatPrice(100 - subtotal)} لإتمام الطلب)
                 </p>
-                {!isFreeShipping && (
-                  <div className={styles.progressBar}>
-                    <div className={styles.progressFill} style={{ width: `${Math.min((subtotal / 100) * 100, 100)}%` }} />
-                  </div>
-                )}
+                <div className={styles.progressBar}>
+                  <div className={styles.progressFill} style={{ width: `${Math.min((subtotal / 100) * 100, 100)}%` }} />
+                </div>
               </div>
             )}
 
@@ -172,11 +170,16 @@ export default function CartDrawer() {
                     </div>
                   )}
                   <div className={styles.shippingRow}>
-                    <span className={isFreeShipping ? styles.freeShipping : styles.shippingNote}>{shippingText}</span>
+                    <span className={styles.shippingNote}>{shippingText}</span>
                   </div>
                 </div>
-                <button className="btn btn-primary btn-lg w-full" onClick={() => setView('checkout')}>
-                  متابعة الطلب ←
+                <button 
+                  className="btn btn-primary btn-lg w-full" 
+                  onClick={() => setView('checkout')}
+                  disabled={subtotal < 100}
+                  style={subtotal < 100 ? { opacity: 0.5, cursor: 'not-allowed' } : {}}
+                >
+                  {subtotal < 100 ? 'الحد الأدنى 100 دهـ' : 'متابعة الطلب ←'}
                 </button>
               </div>
             )}
@@ -188,8 +191,8 @@ export default function CartDrawer() {
                 <span>المطلوب أداؤه:</span>
                 <span style={{ color: 'var(--color-primary)' }}>{formatPrice(subtotal)}</span>
               </div>
-              <div style={{ fontSize: '0.85rem', color: isFreeShipping ? 'var(--color-savings)' : 'var(--color-text-muted)', fontWeight: 600 }}>
-                {getShippingText(subtotal)}
+              <div style={{ fontSize: '0.85rem', color: 'var(--color-text-muted)', fontWeight: 600 }}>
+                {shippingText}
               </div>
             </div>
 
@@ -236,7 +239,7 @@ export default function CartDrawer() {
               {error && <div style={{ background: '#fee2e2', color: '#991b1b', borderRadius: 'var(--radius-md)', padding: '0.75rem', fontSize: '0.875rem', fontWeight: 600 }}>{error}</div>}
               
               <div style={{ marginTop: '0.5rem' }}>
-                <button type="submit" className="btn btn-primary btn-lg w-full" disabled={loading}>
+                <button type="submit" className="btn btn-primary btn-lg w-full" disabled={loading || subtotal < 100}>
                   {loading ? 'جارٍ الإرسال...' : 'تأكيد الطلب'}
                 </button>
                 <p style={{ textAlign: 'center', fontSize: '0.75rem', color: 'var(--color-text-muted)', marginTop: '0.75rem' }}>

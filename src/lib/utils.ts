@@ -20,7 +20,7 @@ export function calcCartTotals(
   }
 
   const totalSavings = Math.max(0, competitorTotal - ourTotal)
-  const shippingFee = ourTotal >= 100 ? 0 : null // null = TBD (15-35dh)
+  const shippingFee = null // TBD (15-35dh)
 
   return { ourTotal, competitorTotal, totalSavings, shippingFee }
 }
@@ -29,8 +29,7 @@ export function formatPrice(price: number): string {
   return `${price.toFixed(2)} درهم`
 }
 
-export function getShippingText(subtotal: number): string {
-  if (subtotal >= 100) return 'توصيل مجاني '
+export function getShippingText(): string {
   return 'رسوم التوصيل: 15 إلى 35 درهم (يُحدد عند التأكيد)'
 }
 

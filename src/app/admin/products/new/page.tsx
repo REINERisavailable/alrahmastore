@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { supabase } from '@/lib/supabase'
+import { insertProductAction, uploadImageAction } from '@/app/admin/actions'
 
 interface Variant {
   label: string
@@ -61,7 +62,6 @@ export default function NewProductPage() {
         const formData = new FormData()
         formData.append('file', imageFile)
         formData.append('path', path)
-        const { uploadImageAction } = await import('@/app/admin/actions')
         image_url = await uploadImageAction(formData)
       }
 
@@ -77,7 +77,6 @@ export default function NewProductPage() {
         is_active: form.is_active,
       }
 
-      const { insertProductAction } = await import('@/app/admin/actions')
       await insertProductAction(productData, variants, form.has_variants)
 
       router.push('/admin/products')

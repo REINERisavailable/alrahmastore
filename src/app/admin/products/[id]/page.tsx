@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react'
 import { useRouter, useParams } from 'next/navigation'
 import { supabase } from '@/lib/supabase'
 import type { Product } from '@/lib/supabase'
+import { updateProductAction, uploadImageAction } from '@/app/admin/actions'
 
 interface Variant {
   id?: number
@@ -111,7 +112,6 @@ export default function EditProductPage() {
         const formData = new FormData()
         formData.append('file', imageFile)
         formData.append('path', path)
-        const { uploadImageAction } = await import('@/app/admin/actions')
         image_url = await uploadImageAction(formData)
       }
 
@@ -127,7 +127,6 @@ export default function EditProductPage() {
         is_active: form.is_active,
       }
 
-      const { updateProductAction } = await import('@/app/admin/actions')
       await updateProductAction(id, productData, variants, form.has_variants)
 
       router.push('/admin/products')

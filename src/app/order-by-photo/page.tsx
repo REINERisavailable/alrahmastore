@@ -6,6 +6,7 @@ import Image from 'next/image'
 import StorefrontLayout from '@/components/StorefrontLayout'
 import { supabase } from '@/lib/supabase'
 import { WHATSAPP_NUMBER } from '@/lib/utils'
+import { uploadPublicImageAction } from '@/app/actions'
 
 interface UploadedFile {
   file: File
@@ -41,17 +42,6 @@ export default function OrderByPhotoPage() {
     })
   }
 
-  async function uploadFile(uf: UploadedFile, idx: number): Promise<string> {
-    const ext = uf.file.name.split('.').pop() || 'jpg'
-    const path = `photo-orders/${Date.now()}-${idx}.${ext}`
-    const { error: upErr } = await supabase.storage
-      .from('image')
-      .upload(path, uf.file, { contentType: uf.file.type, upsert: false })
-    if (upErr) throw upErr
-    const { data } = supabase.storage.from('image').getPublicUrl(path)
-    return data.publicUrl
-  }
-
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
     setError('')
@@ -68,7 +58,15 @@ export default function OrderByPhotoPage() {
       // Upload all images
       const urls: string[] = []
       for (let i = 0; i < files.length; i++) {
-        const url = await uploadFile(files[i], i)
+        const file = files[i].file
+        const ext = file.name.split('.').pop() || 'jpg'
+        const path = `photo-orders/${Date.now()}-${i}.${ext}`
+        
+        const formData = new FormData()
+        formData.append('file', file)
+        formData.append('path', path)
+        
+        const url = await uploadPublicImageAction(formData)
         urls.push(url)
         setFiles(prev => prev.map((f, j) => j === i ? { ...f, progress: 100 } : f))
       }
