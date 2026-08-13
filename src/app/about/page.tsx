@@ -72,7 +72,7 @@ export default function AboutPage() {
       <div className="container section" style={{ maxWidth: 800, margin: '0 auto' }}>
         {/* Hero */}
         <div style={{ textAlign: 'center', marginBottom: '4rem' }}>
-          <div style={{ fontSize: '4rem', marginBottom: '1rem' }}>🏫</div>
+          <div style={{ fontSize: '4rem', marginBottom: '1rem' }}></div>
           <h1 style={{ fontSize: '2.5rem', fontWeight: 900, color: 'var(--color-primary)', marginBottom: '1rem' }}>من نحن</h1>
           <p style={{ fontSize: '1.2rem', color: 'var(--color-text-secondary)', lineHeight: 1.8, maxWidth: 600, margin: '0 auto' }}>
             متجر الرحمة — أرخص متجر للأدوات المدرسية في المغرب عبر الإنترنت
@@ -100,10 +100,10 @@ export default function AboutPage() {
         <section style={{ marginBottom: '3rem' }}>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(160px, 1fr))', gap: '1rem' }}>
             {[
-              { num: '70%', label: 'توفير مقارنة بالسوق', icon: '💰' },
-              { num: '3 دهـ', label: 'أدنى سعر للمنتج', icon: '🏷️' },
-              { num: '12', label: 'مدن مغربية نوصّل إليها', icon: '🚚' },
-              { num: '100%', label: 'دفع عند الاستلام', icon: '✅' },
+              { num: '70%', label: 'توفير مقارنة بالسوق', icon: '' },
+              { num: '3 دهـ', label: 'أدنى سعر للمنتج', icon: '️' },
+              { num: '12', label: 'مدن مغربية نوصّل إليها', icon: '' },
+              { num: '100%', label: 'دفع عند الاستلام', icon: '' },
             ].map(({ num, label, icon }) => (
               <div key={label} style={{ background: 'white', border: '2px solid var(--color-border)', borderRadius: 'var(--radius-xl)', padding: '1.5rem', textAlign: 'center', boxShadow: 'var(--shadow-sm)' }}>
                 <div style={{ fontSize: '1.75rem', marginBottom: '0.5rem' }}>{icon}</div>
@@ -119,10 +119,10 @@ export default function AboutPage() {
           <h2 style={{ fontSize: '1.5rem', fontWeight: 800, color: 'var(--color-primary)', marginBottom: '1.25rem' }}>لماذا نحن الأرخص؟</h2>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
             {[
-              { icon: '📦', title: 'شراء بالجملة مباشرة', desc: 'نشتري مباشرة من الموردين بكميات كبيرة، مما يخفض التكلفة بشكل كبير.' },
-              { icon: '🏪', title: 'لا تكاليف إيجار', desc: 'نعمل بالكامل عبر الإنترنت — لا محل فيزيائي، لا فواتير إيجار، التوفير ينعكس على أسعارك.' },
-              { icon: '💚', title: 'هامش ربح منخفض', desc: 'هدفنا الحجم لا الهامش الكبير. نبيع بربح أقل لنصل لأكبر عدد من الأسر.' },
-              { icon: '🤝', title: 'تواصل مباشر', desc: 'كل طلب يُتابَع شخصياً عبر واتساب. أنت لست مجرد طلب عندنا.' },
+              { icon: '', title: 'شراء بالجملة مباشرة', desc: 'نشتري مباشرة من الموردين بكميات كبيرة، مما يخفض التكلفة بشكل كبير.' },
+              { icon: '', title: 'لا تكاليف إيجار', desc: 'نعمل بالكامل عبر الإنترنت — لا محل فيزيائي، لا فواتير إيجار، التوفير ينعكس على أسعارك.' },
+              { icon: '', title: 'هامش ربح منخفض', desc: 'هدفنا الحجم لا الهامش الكبير. نبيع بربح أقل لنصل لأكبر عدد من الأسر.' },
+              { icon: '', title: 'تواصل مباشر', desc: 'كل طلب يُتابَع شخصياً عبر واتساب. أنت لست مجرد طلب عندنا.' },
             ].map(({ icon, title, desc }) => (
               <div key={title} style={{ display: 'flex', gap: '1rem', background: 'var(--green-50)', borderRadius: 'var(--radius-lg)', padding: '1.25rem', border: '1px solid var(--color-border)' }}>
                 <div style={{ fontSize: '2rem', flexShrink: 0 }}>{icon}</div>
@@ -155,8 +155,8 @@ export default function AboutPage() {
           <h2 style={{ fontSize: '1.75rem', fontWeight: 900, marginBottom: '0.75rem', color: 'white' }}>ابدأ التوفير الآن</h2>
           <p style={{ opacity: 0.9, marginBottom: '1.5rem' }}>انضم لآلاف الأسر المغربية التي تتسوق بذكاء</p>
           <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', flexWrap: 'wrap' }}>
-            <a href="/products" className="btn" style={{ background: 'white', color: 'var(--color-primary)', fontWeight: 800 }} id="about-shop-btn">🛍️ تسوق الآن</a>
-            <a href={`https://wa.me/212603323433?text=${encodeURIComponent('مرحبا، أريد الاستفسار عن منتجاتكم')}`} target="_blank" rel="noopener noreferrer" className="btn" style={{ background: 'rgba(255,255,255,0.15)', color: 'white', border: '2px solid rgba(255,255,255,0.5)' }} id="about-wa-btn">📞 تواصل واتساب</a>
+            <a href="/products" className="btn" style={{ background: 'white', color: 'var(--color-primary)', fontWeight: 800 }} id="about-shop-btn">️ تسوق الآن</a>
+            <a href={`https://wa.me/212603323433?text=${encodeURIComponent('مرحبا، أريد الاستفسار عن منتجاتكم')}`} target="_blank" rel="noopener noreferrer" className="btn" style={{ background: 'rgba(255,255,255,0.15)', color: 'white', border: '2px solid rgba(255,255,255,0.5)' }} id="about-wa-btn"> تواصل واتساب</a>
           </div>
         </div>
       </div>

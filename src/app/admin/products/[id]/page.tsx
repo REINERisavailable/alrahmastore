@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { useRouter, useParams } from 'next/navigation'
-import { supabaseAdmin } from '@/lib/supabase-admin'
+import { supabase } from '@/lib/supabase'
 import type { Product } from '@/lib/supabase'
 
 interface Variant {
@@ -33,7 +33,7 @@ export default function EditProductPage() {
   useEffect(() => {
     async function load() {
       try {
-        const { data: prod, error: err1 } = await (supabaseAdmin as any).from('products').select('*').eq('id', id).single()
+        const { data: prod, error: err1 } = await supabase.from('products').select('*').eq('id', id).single()
         if (err1) throw err1
         
         if (prod) {
@@ -51,7 +51,7 @@ export default function EditProductPage() {
           setImagePreview(prod.image_url)
 
           if (prod.has_variants) {
-            const { data: vars } = await (supabaseAdmin as any).from('product_variants').select('*').eq('product_id', id)
+            const { data: vars } = await supabase.from('product_variants').select('*').eq('product_id', id)
             if (vars && vars.length > 0) {
               setVariants(vars.map((v: any) => ({
                 id: v.id,
@@ -108,13 +108,13 @@ export default function EditProductPage() {
       if (imageFile) {
         const ext = imageFile.name.split('.').pop() || 'jpg'
         const path = `products/${Date.now()}.${ext}`
-        const { error: upErr } = await (supabaseAdmin as any).storage.from('image').upload(path, imageFile, { contentType: imageFile.type })
+        const { error: upErr } = await supabase.storage.from('image').upload(path, imageFile, { contentType: imageFile.type })
         if (upErr) throw upErr
-        const { data } = (supabaseAdmin as any).storage.from('image').getPublicUrl(path)
+        const { data } = supabase.storage.from('image').getPublicUrl(path)
         image_url = data.publicUrl
       }
 
-      const { error: dbErr } = await (supabaseAdmin as any).from('products').update({
+      const { error: dbErr } = await supabase.from('products').update({
         name: form.name,
         description: form.description || null,
         price: parseFloat(form.price),
@@ -130,7 +130,7 @@ export default function EditProductPage() {
 
       if (form.has_variants && variants.length > 0) {
         // Simple approach: delete existing variants and re-insert to avoid complex diffing
-        await (supabaseAdmin as any).from('product_variants').delete().eq('product_id', id)
+        await supabase.from('product_variants').delete().eq('product_id', id)
 
         const variantRows = variants.filter(v => v.label.trim()).map(v => ({
           product_id: id,
@@ -142,10 +142,10 @@ export default function EditProductPage() {
         }))
         
         if (variantRows.length > 0) {
-          await (supabaseAdmin as any).from('product_variants').insert(variantRows)
+          await supabase.from('product_variants').insert(variantRows)
         }
       } else {
-        await (supabaseAdmin as any).from('product_variants').delete().eq('product_id', id)
+        await supabase.from('product_variants').delete().eq('product_id', id)
       }
 
       router.push('/admin/products')
@@ -156,11 +156,11 @@ export default function EditProductPage() {
     }
   }
 
-  if (loading) return <div style={{ padding: '4rem', textAlign: 'center' }}>⏳ جارٍ التحميل...</div>
+  if (loading) return <div style={{ padding: '4rem', textAlign: 'center' }}> جارٍ التحميل...</div>
 
   return (
     <div style={{ maxWidth: 700 }}>
-      <h1 style={{ fontSize: '1.75rem', fontWeight: 800, color: 'var(--color-primary)', marginBottom: '1.5rem' }}>✏️ تعديل المنتج</h1>
+      <h1 style={{ fontSize: '1.75rem', fontWeight: 800, color: 'var(--color-primary)', marginBottom: '1.5rem' }}>️ تعديل المنتج</h1>
 
       <form onSubmit={handleSubmit} className="stat-card" style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem', padding: '2rem' }}>
         <div className="form-group">
@@ -173,7 +173,7 @@ export default function EditProductPage() {
             )}
             <label style={{ flex: 1, cursor: 'pointer' }}>
               <div className="upload-zone" style={{ padding: '1rem' }}>
-                <p style={{ fontSize: '0.875rem', fontWeight: 600 }}>🔄 تغيير الصورة</p>
+                <p style={{ fontSize: '0.875rem', fontWeight: 600 }}> تغيير الصورة</p>
               </div>
               <input type="file" accept="image/*" onChange={handleImageChange} style={{ display: 'none' }} />
             </label>
@@ -181,7 +181,7 @@ export default function EditProductPage() {
         </div>
 
         <div className="form-group">
-          <label className="form-label" htmlFor="edit-video">🎬 رابط فيديو أو GIF (اختياري)</label>
+          <label className="form-label" htmlFor="edit-video"> رابط فيديو أو GIF (اختياري)</label>
           <input id="edit-video" className="form-input" type="url" placeholder="https://..." value={form.video_url} onChange={e => setForm(f => ({ ...f, video_url: e.target.value }))} dir="ltr" />
         </div>
 
@@ -197,15 +197,15 @@ export default function EditProductPage() {
 
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '1rem' }}>
           <div className="form-group">
-            <label className="form-label" htmlFor="edit-jemla">💰 سعر الجملة</label>
+            <label className="form-label" htmlFor="edit-jemla"> سعر الجملة</label>
             <input id="edit-jemla" className="form-input" type="number" step="0.01" min="0" value={form.jemla_price} onChange={e => setForm(f => ({ ...f, jemla_price: e.target.value }))} dir="ltr" />
           </div>
           <div className="form-group">
-            <label className="form-label" htmlFor="edit-price">🏷️ سعرنا *</label>
+            <label className="form-label" htmlFor="edit-price">️ سعرنا *</label>
             <input id="edit-price" className="form-input" type="number" step="0.01" min="0" value={form.price} onChange={e => setForm(f => ({ ...f, price: e.target.value }))} required dir="ltr" />
           </div>
           <div className="form-group">
-            <label className="form-label" htmlFor="edit-comp">🏪 سعر المنافس</label>
+            <label className="form-label" htmlFor="edit-comp"> سعر المنافس</label>
             <input id="edit-comp" className="form-input" type="number" step="0.01" min="0" value={form.competitor_price} onChange={e => setForm(f => ({ ...f, competitor_price: e.target.value }))} dir="ltr" />
           </div>
         </div>
@@ -232,7 +232,7 @@ export default function EditProductPage() {
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '0.75rem' }}>
             <input id="edit-variants" type="checkbox" checked={form.has_variants} onChange={e => setForm(f => ({ ...f, has_variants: e.target.checked }))} style={{ width: 18, height: 18, accentColor: 'var(--color-primary)' }} />
             <label htmlFor="edit-variants" className="form-label" style={{ margin: 0, cursor: 'pointer', fontWeight: 700 }}>
-              🎨 هذا المنتج له خيارات (ألوان، أحجام...)
+               هذا المنتج له خيارات (ألوان، أحجام...)
             </label>
           </div>
 
@@ -245,7 +245,7 @@ export default function EditProductPage() {
                   <input className="form-input" placeholder="السعر" type="number" step="0.01" value={v.price} onChange={e => updateVariant(idx, 'price', e.target.value)} dir="ltr" style={{ fontSize: '0.85rem' }} />
                   <input className="form-input" placeholder="الجملة" type="number" step="0.01" value={v.jemla_price} onChange={e => updateVariant(idx, 'jemla_price', e.target.value)} dir="ltr" style={{ fontSize: '0.85rem' }} />
                   <input className="form-input" placeholder="المنافس" type="number" step="0.01" value={v.competitor_price} onChange={e => updateVariant(idx, 'competitor_price', e.target.value)} dir="ltr" style={{ fontSize: '0.85rem' }} />
-                  <button type="button" onClick={() => removeVariant(idx)} style={{ background: '#fee2e2', border: 'none', borderRadius: 'var(--radius-sm)', padding: '0.5rem 0.625rem', cursor: 'pointer', fontSize: '0.875rem' }}>✕</button>
+                  <button type="button" onClick={() => removeVariant(idx)} style={{ background: '#fee2e2', border: 'none', borderRadius: 'var(--radius-sm)', padding: '0.5rem 0.625rem', cursor: 'pointer', fontSize: '0.875rem' }}></button>
                 </div>
               ))}
               <button type="button" className="btn btn-outline btn-sm" onClick={addVariant} style={{ marginTop: '0.5rem' }}>+ إضافة خيار</button>
@@ -262,7 +262,7 @@ export default function EditProductPage() {
 
         <div style={{ display: 'flex', gap: '0.75rem' }}>
           <button type="submit" className="btn btn-primary" disabled={saving} style={{ flex: 1 }} id="update-product-btn">
-            {saving ? '⏳ جارٍ الحفظ...' : '💾 حفظ التعديلات'}
+            {saving ? ' جارٍ الحفظ...' : ' حفظ التعديلات'}
           </button>
           <button type="button" className="btn btn-ghost" onClick={() => router.back()}>إلغاء</button>
         </div>

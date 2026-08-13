@@ -13,7 +13,7 @@ export default function Navbar() {
         <div className={styles.inner}>
           {/* Logo / Brand */}
           <Link href="/" className={styles.brand} aria-label="متجر الرحمة - الصفحة الرئيسية">
-            <span className={styles.brandIcon}>🌿</span>
+            <span className={styles.brandIcon}></span>
             <div>
               <span className={styles.brandName}>متجر الرحمة</span>
               <span className={styles.brandTagline}>أرخص أدوات مدرسية في المغرب</span>
@@ -26,7 +26,7 @@ export default function Navbar() {
               جميع المنتجات
             </Link>
             <Link href="/order-by-photo" className={styles.navLinkPhoto}>
-              📸 اطلب بصورة
+               اطلب بصورة
             </Link>
             <Link href="/savings" className={styles.navLink}>
               وفّر معنا
@@ -40,7 +40,7 @@ export default function Navbar() {
             aria-label={`سلة التسوق - ${totalItems} منتج`}
             id="cart-button"
           >
-            <span className={styles.cartIcon}>🛒</span>
+            <span className={styles.cartIcon}></span>
             <span className={styles.cartLabel}>السلة</span>
             {totalItems > 0 && (
               <span className={styles.cartBadge} aria-live="polite">

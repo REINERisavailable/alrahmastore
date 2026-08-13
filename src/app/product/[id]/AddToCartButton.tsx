@@ -39,7 +39,7 @@ export default function AddToCartButton({ product }: { product: Product }) {
         id={`add-to-cart-detail-${product.id}`}
         style={{ width: '100%', transition: 'all 0.25s' }}
       >
-        {added ? '✅ تمت الإضافة للسلة!' : `أضف ${qty} للسلة 🛒`}
+        {added ? ' تمت الإضافة للسلة!' : `أضف ${qty} للسلة `}
       </button>
     </div>
   )

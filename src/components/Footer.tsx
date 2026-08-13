@@ -13,7 +13,7 @@ export default function Footer() {
           {/* Brand */}
           <div>
             <h3 style={{ color: 'white', fontWeight: 800, fontSize: '1.2rem', marginBottom: '0.75rem' }}>
-              🌿 متجر الرحمة
+               متجر الرحمة
             </h3>
             <p style={{ fontSize: '0.875rem', lineHeight: '1.7', opacity: 0.75 }}>
               أرخص متجر للأدوات المدرسية في المغرب. أسعار تبدأ من 3 دراهم. توصيل لجميع أنحاء المغرب.
@@ -29,7 +29,7 @@ export default function Footer() {
                 fontSize: '0.875rem', fontWeight: 700, textDecoration: 'none',
               }}
             >
-              📱 واتساب
+               واتساب
             </a>
           </div>
 
@@ -39,7 +39,7 @@ export default function Footer() {
             <nav style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
               {[
                 { href: '/products', label: 'جميع المنتجات' },
-                { href: '/order-by-photo', label: '📸 اطلب بصورة' },
+                { href: '/order-by-photo', label: ' اطلب بصورة' },
                 { href: '/savings', label: 'مقارنة الأسعار' },
                 { href: '/about', label: 'من نحن' },
                 { href: '/blog', label: 'المقالات' },
@@ -59,10 +59,10 @@ export default function Footer() {
           <div>
             <h4 style={{ color: 'white', fontWeight: 700, marginBottom: '0.75rem' }}>التوصيل</h4>
             <ul style={{ fontSize: '0.875rem', display: 'flex', flexDirection: 'column', gap: '0.5rem', listStyle: 'none', opacity: 0.75 }}>
-              <li>✅ توصيل لجميع أنحاء المغرب</li>
-              <li>🎉 مجاني للطلبات فوق 100 درهم</li>
-              <li>📦 15 إلى 35 درهم للطلبات الأقل</li>
-              <li>📞 نتواصل معك لتأكيد الطلب</li>
+              <li> توصيل لجميع أنحاء المغرب</li>
+              <li> مجاني للطلبات فوق 100 درهم</li>
+              <li> 15 إلى 35 درهم للطلبات الأقل</li>
+              <li> نتواصل معك لتأكيد الطلب</li>
             </ul>
           </div>
         </div>
@@ -78,7 +78,7 @@ export default function Footer() {
           fontSize: '0.8rem',
           opacity: 0.6,
         }}>
-          <p>© {new Date().getFullYear()} متجر الرحمة — جميع الحقوق محفوظة</p>
+          <p> {new Date().getFullYear()} متجر الرحمة — جميع الحقوق محفوظة</p>
           <p>alrahma.store</p>
         </div>
       </div>

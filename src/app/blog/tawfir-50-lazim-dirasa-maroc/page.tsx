@@ -28,7 +28,7 @@ export default function Article2() {
           <Link href="/blog" style={{ color: 'var(--color-primary)', fontWeight: 600, fontSize: '0.9rem', textDecoration: 'none' }}>← العودة للمدونة</Link>
         </div>
         <header style={{ marginBottom: '2.5rem' }}>
-          <div style={{ fontSize: '3.5rem', marginBottom: '1rem' }}>💰</div>
+          <div style={{ fontSize: '3.5rem', marginBottom: '1rem' }}></div>
           <h1 style={{ fontSize: '2rem', fontWeight: 900, color: 'var(--color-primary)', lineHeight: 1.4, marginBottom: '1rem' }}>
             كيف توفر أكثر من 50% على لوازم الدراسة في المغرب
           </h1>
@@ -56,7 +56,7 @@ export default function Article2() {
           <p style={{ marginBottom: '1.5rem' }}>مثال: علبة 12 قلم رصاص Maped بـ <strong style={{ color: 'var(--color-primary)' }}>4 دراهم</strong> بدل شراء 12 قلم مفرد بـ 1.5 درهم للقلم = <strong style={{ color: 'var(--color-savings)' }}>توفير 14 درهم</strong>.</p>
 
           <div style={{ background: 'var(--green-50)', border: '2px solid var(--color-border)', borderRadius: 'var(--radius-xl)', padding: '1.5rem', marginBottom: '1.5rem' }}>
-            <h3 style={{ fontWeight: 800, marginBottom: '1rem', color: 'var(--color-primary)' }}>💡 مثال حساب حقيقي</h3>
+            <h3 style={{ fontWeight: 800, marginBottom: '1rem', color: 'var(--color-primary)' }}> مثال حساب حقيقي</h3>
             <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '0.9rem' }}>
               <thead>
                 <tr style={{ background: 'var(--green-200)' }}>
@@ -86,13 +86,13 @@ export default function Article2() {
                 </tr>
               </tbody>
             </table>
-            <p style={{ textAlign: 'center', marginTop: '0.75rem', fontWeight: 800, color: 'var(--color-savings)', fontSize: '1.1rem' }}>✅ توفير 163 درهم = 49%</p>
+            <p style={{ textAlign: 'center', marginTop: '0.75rem', fontWeight: 800, color: 'var(--color-savings)', fontSize: '1.1rem' }}> توفير 163 درهم = 49%</p>
           </div>
 
           <div style={{ background: 'linear-gradient(135deg, var(--green-600), var(--green-800))', color: 'white', borderRadius: 'var(--radius-xl)', padding: '2rem', textAlign: 'center', marginTop: '2rem' }}>
             <h3 style={{ fontSize: '1.4rem', fontWeight: 900, marginBottom: '0.75rem', color: 'white' }}>جرّب الحساب بنفسك</h3>
             <p style={{ opacity: 0.9, marginBottom: '1.5rem' }}>أضف منتجاتك وشاهد التوفير تلقائياً</p>
-            <Link href="/savings" className="btn" style={{ background: 'white', color: 'var(--color-primary)', fontWeight: 800 }} id="article2-savings-btn">📊 صفحة المقارنة</Link>
+            <Link href="/savings" className="btn" style={{ background: 'white', color: 'var(--color-primary)', fontWeight: 800 }} id="article2-savings-btn"> صفحة المقارنة</Link>
           </div>
         </div>
       </article>

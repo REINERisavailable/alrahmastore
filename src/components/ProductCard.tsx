@@ -38,7 +38,7 @@ export default function ProductCard({ product }: Props) {
           />
         ) : (
           <div className={styles.imagePlaceholder}>
-            <span>📦</span>
+            <span></span>
           </div>
         )}
         {savings.pct > 0 && (
@@ -77,7 +77,7 @@ export default function ProductCard({ product }: Props) {
           aria-label={`أضف ${product.name} إلى السلة`}
           id={`add-to-cart-${product.id}`}
         >
-          {adding ? '✓ تمت الإضافة' : 'أضف للسلة 🛒'}
+          {adding ? ' تمت الإضافة' : 'أضف للسلة '}
         </button>
       </div>
     </article>

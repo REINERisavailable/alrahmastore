@@ -28,7 +28,7 @@ export default async function SavingsPage() {
     <StorefrontLayout>
       <div className="container section">
         <div style={{ textAlign: 'center', maxWidth: 640, margin: '0 auto 3rem' }}>
-          <h1 style={{ marginBottom: '1rem' }}>💰 وفّر معنا</h1>
+          <h1 style={{ marginBottom: '1rem' }}> وفّر معنا</h1>
           <p style={{ color: 'var(--color-text-secondary)', fontSize: '1.05rem', lineHeight: 1.8 }}>
             مقارنة شاملة بين أسعارنا وأسعار السوق في المغرب. أرخص متجر للأدوات المدرسية عبر الإنترنت.
           </p>
@@ -37,9 +37,9 @@ export default async function SavingsPage() {
         {/* Summary */}
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: '1rem', marginBottom: '3rem' }}>
           {[
-            { label: 'سعرنا الإجمالي', value: formatPrice(totalOurCost), color: 'var(--color-primary)', icon: '🏷️' },
-            { label: 'سعر السوق', value: formatPrice(totalMarketCost), color: 'var(--color-competitor)', icon: '🏪' },
-            { label: 'إجمالي التوفير', value: formatPrice(totalSavings), color: 'var(--color-savings)', icon: '💰' },
+            { label: 'سعرنا الإجمالي', value: formatPrice(totalOurCost), color: 'var(--color-primary)', icon: '️' },
+            { label: 'سعر السوق', value: formatPrice(totalMarketCost), color: 'var(--color-competitor)', icon: '' },
+            { label: 'إجمالي التوفير', value: formatPrice(totalSavings), color: 'var(--color-savings)', icon: '' },
           ].map(({ label, value, color, icon }) => (
             <div key={label} style={{ background: 'white', border: '1px solid var(--color-border)', borderRadius: 'var(--radius-lg)', padding: '1.5rem', textAlign: 'center', boxShadow: 'var(--shadow-sm)' }}>
               <div style={{ fontSize: '2rem', marginBottom: '0.5rem' }}>{icon}</div>
@@ -86,7 +86,7 @@ export default async function SavingsPage() {
 
         <div style={{ textAlign: 'center', marginTop: '3rem' }}>
           <a href="/products" className="btn btn-primary btn-lg" id="savings-shop-now">
-            🛍️ تسوق الآن وابدأ التوفير
+            ️ تسوق الآن وابدأ التوفير
           </a>
         </div>
       </div>

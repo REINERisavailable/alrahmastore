@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useCallback } from 'react'
 import Image from 'next/image'
-import { supabaseAdmin } from '@/lib/supabase-admin'
+import { supabase } from '@/lib/supabase'
 import type { PhotoOrder } from '@/lib/supabase'
 
 const STATUS_OPTIONS = ['pending_review', 'contacted', 'confirmed', 'completed', 'cancelled']
@@ -22,7 +22,7 @@ export default function AdminPhotoOrdersPage() {
 
   const fetchOrders = useCallback(async () => {
     setLoading(true)
-    const { data } = await (supabaseAdmin as any).from('photo_orders').select('*').order('created_at', { ascending: false })
+    const { data } = await supabase.from('photo_orders').select('*').order('created_at', { ascending: false })
     setOrders(data || [])
     setLoading(false)
   }, [])
@@ -30,21 +30,21 @@ export default function AdminPhotoOrdersPage() {
   useEffect(() => { fetchOrders() }, [fetchOrders])
 
   async function updateStatus(id: string, status: string) {
-    await (supabaseAdmin as any).from('photo_orders').update({ status }).eq('id', id)
+    await supabase.from('photo_orders').update({ status }).eq('id', id)
     setOrders(prev => prev.map(o => o.id === id ? { ...o, status: status as PhotoOrder['status'] } : o))
     if (selected?.id === id) setSelected(prev => prev ? { ...prev, status: status as PhotoOrder['status'] } : null)
   }
 
   async function saveNotes(id: string, notes: string) {
-    await (supabaseAdmin as any).from('photo_orders').update({ notes }).eq('id', id)
+    await supabase.from('photo_orders').update({ notes }).eq('id', id)
   }
 
   return (
     <div>
-      <h1 style={{ fontSize: '1.75rem', fontWeight: 800, color: 'var(--color-primary)', marginBottom: '1.5rem' }}>📸 طلبات الصور</h1>
+      <h1 style={{ fontSize: '1.75rem', fontWeight: 800, color: 'var(--color-primary)', marginBottom: '1.5rem' }}> طلبات الصور</h1>
 
       {loading ? (
-        <div style={{ textAlign: 'center', padding: '4rem', color: 'var(--color-text-muted)' }}>⏳ جارٍ التحميل...</div>
+        <div style={{ textAlign: 'center', padding: '4rem', color: 'var(--color-text-muted)' }}> جارٍ التحميل...</div>
       ) : (
         <div style={{ display: 'grid', gridTemplateColumns: selected ? '1fr 1fr' : '1fr', gap: '1.5rem' }}>
           {/* Table */}
@@ -71,7 +71,7 @@ export default function AdminPhotoOrdersPage() {
                   >
                     <td style={{ fontWeight: 600 }}>{order.customer_name}</td>
                     <td dir="ltr" style={{ textAlign: 'right' }}>{order.phone}</td>
-                    <td style={{ fontWeight: 700, color: 'var(--color-primary)' }}>{order.image_urls.length} 📷</td>
+                    <td style={{ fontWeight: 700, color: 'var(--color-primary)' }}>{order.image_urls.length} </td>
                     <td>
                       <span className={`badge badge-status-${order.status === 'pending_review' ? 'pending' : order.status === 'completed' ? 'delivered' : 'confirmed'}`}>
                         {STATUS_LABELS[order.status]}
@@ -86,7 +86,7 @@ export default function AdminPhotoOrdersPage() {
                         onClick={e => e.stopPropagation()}
                         style={{ background: '#25D366', color: 'white', padding: '0.375rem 0.625rem', borderRadius: 'var(--radius-md)', fontSize: '0.8rem', fontWeight: 700 }}
                       >
-                        📱
+                        
                       </a>
                     </td>
                   </tr>
@@ -104,7 +104,7 @@ export default function AdminPhotoOrdersPage() {
                   <p style={{ color: 'var(--color-text-muted)', fontSize: '0.875rem' }} dir="ltr">{selected.phone}</p>
                   <p style={{ fontSize: '0.8rem', color: 'var(--color-text-secondary)', marginTop: '0.25rem' }}>{selected.address}</p>
                 </div>
-                <button onClick={() => setSelected(null)} style={{ background: 'var(--green-100)', border: 'none', borderRadius: 'var(--radius-md)', padding: '0.375rem 0.75rem', cursor: 'pointer', fontWeight: 700 }}>✕</button>
+                <button onClick={() => setSelected(null)} style={{ background: 'var(--green-100)', border: 'none', borderRadius: 'var(--radius-md)', padding: '0.375rem 0.75rem', cursor: 'pointer', fontWeight: 700 }}></button>
               </div>
 
               {/* Status */}
@@ -133,7 +133,7 @@ export default function AdminPhotoOrdersPage() {
 
               {/* Images */}
               <div>
-                <p style={{ fontWeight: 600, fontSize: '0.875rem', marginBottom: '0.75rem' }}>📷 الصور ({selected.image_urls.length})</p>
+                <p style={{ fontWeight: 600, fontSize: '0.875rem', marginBottom: '0.75rem' }}> الصور ({selected.image_urls.length})</p>
                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '0.5rem' }}>
                   {selected.image_urls.map((url, i) => (
                     <div
@@ -155,7 +155,7 @@ export default function AdminPhotoOrdersPage() {
                 className="btn w-full"
                 style={{ marginTop: '1.25rem', background: '#25D366', color: 'white', justifyContent: 'center' }}
               >
-                📱 تواصل على واتساب
+                 تواصل على واتساب
               </a>
             </div>
           )}
@@ -166,7 +166,7 @@ export default function AdminPhotoOrdersPage() {
       {lightboxImg && (
         <div className="lightbox-overlay" onClick={() => setLightboxImg(null)}>
           <img src={lightboxImg} alt="صورة القائمة" style={{ maxWidth: '90vw', maxHeight: '90vh', objectFit: 'contain', borderRadius: 'var(--radius-lg)' }} onClick={e => e.stopPropagation()} />
-          <button onClick={() => setLightboxImg(null)} style={{ position: 'fixed', top: '1rem', left: '1rem', background: 'rgba(255,255,255,0.2)', color: 'white', border: 'none', borderRadius: '50%', width: 44, height: 44, fontSize: '1.25rem', cursor: 'pointer' }}>✕</button>
+          <button onClick={() => setLightboxImg(null)} style={{ position: 'fixed', top: '1rem', left: '1rem', background: 'rgba(255,255,255,0.2)', color: 'white', border: 'none', borderRadius: '50%', width: 44, height: 44, fontSize: '1.25rem', cursor: 'pointer' }}></button>
         </div>
       )}
     </div>

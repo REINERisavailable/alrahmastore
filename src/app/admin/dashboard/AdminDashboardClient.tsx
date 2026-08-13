@@ -66,7 +66,7 @@ export default function AdminDashboardClient({ data }: { data: DashboardData }) 
       {/* Header */}
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '1rem' }}>
         <div>
-          <h1 style={{ fontSize: '1.75rem', fontWeight: 800, color: 'var(--color-primary)', marginBottom: '0.25rem' }}>📊 لوحة التحكم</h1>
+          <h1 style={{ fontSize: '1.75rem', fontWeight: 800, color: 'var(--color-primary)', marginBottom: '0.25rem' }}> لوحة التحكم</h1>
           <p style={{ color: 'var(--color-text-muted)', fontSize: '0.875rem' }}>
             {new Date().toLocaleDateString('ar-MA', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}
           </p>
@@ -75,7 +75,7 @@ export default function AdminDashboardClient({ data }: { data: DashboardData }) 
           <Link href="/admin/photo-orders" style={{ textDecoration: 'none' }}>
             <div style={{ background: 'linear-gradient(135deg, var(--green-500), var(--green-700))', color: 'white', borderRadius: 'var(--radius-lg)', padding: '0.75rem 1.25rem', display: 'flex', alignItems: 'center', gap: '0.75rem', cursor: 'pointer', fontSize: '0.9rem', fontWeight: 700 }}>
               <span style={{ background: 'rgba(255,255,255,0.25)', borderRadius: '50%', width: 28, height: 28, display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 900 }}>{photoOrdersPending}</span>
-              📸 طلبات صور جديدة
+               طلبات صور جديدة
             </div>
           </Link>
         )}
@@ -88,42 +88,42 @@ export default function AdminDashboardClient({ data }: { data: DashboardData }) 
             label: 'إجمالي الإيرادات',
             value: formatPrice(kpis.totalRevenue),
             sub: 'من الطلبات المؤكدة',
-            icon: '💰',
+            icon: '',
             color: 'var(--green-700)',
           },
           {
             label: 'إجمالي الربح الصافي',
             value: formatPrice(kpis.grossProfit),
             sub: `هامش ${grossMargin}%`,
-            icon: '📈',
+            icon: '',
             color: 'var(--green-600)',
           },
           {
             label: 'إجمالي الطلبات',
             value: kpis.totalOrders,
             sub: `${kpis.pendingOrders} قيد الانتظار`,
-            icon: '📦',
+            icon: '',
             color: '#3b82f6',
           },
           {
             label: 'متوسط قيمة الطلب',
             value: formatPrice(kpis.avgOrderValue),
             sub: 'AOV',
-            icon: '🧾',
+            icon: '',
             color: '#8b5cf6',
           },
           {
             label: 'توفير العملاء',
             value: formatPrice(kpis.totalSavingsForCustomers),
             sub: 'مقارنة بالسوق',
-            icon: '🎉',
+            icon: '',
             color: '#f59e0b',
           },
           {
             label: 'هامش ربح المنتجات',
             value: `${kpis.avgProductMargin}%`,
             sub: `${kpis.activeProducts} منتج نشط`,
-            icon: '🏷️',
+            icon: '️',
             color: 'var(--green-800)',
           },
         ].map(({ label, value, sub, icon, color }) => (
@@ -182,7 +182,7 @@ export default function AdminDashboardClient({ data }: { data: DashboardData }) 
         {/* Top Products */}
         <div className="stat-card">
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.25rem' }}>
-            <h2 style={{ fontSize: '1rem', fontWeight: 700 }}>🏆 أفضل المنتجات مبيعًا</h2>
+            <h2 style={{ fontSize: '1rem', fontWeight: 700 }}> أفضل المنتجات مبيعًا</h2>
             <Link href="/admin/products" className="btn btn-ghost btn-sm" style={{ fontSize: '0.8rem' }}>الكل</Link>
           </div>
           {topProducts.length === 0 ? (
@@ -215,7 +215,7 @@ export default function AdminDashboardClient({ data }: { data: DashboardData }) 
 
         {/* Weekday distribution */}
         <div className="stat-card">
-          <h2 style={{ fontSize: '1rem', fontWeight: 700, marginBottom: '1.25rem' }}>📅 الطلبات حسب اليوم</h2>
+          <h2 style={{ fontSize: '1rem', fontWeight: 700, marginBottom: '1.25rem' }}> الطلبات حسب اليوم</h2>
           <ResponsiveContainer width="100%" height={180}>
             <BarChart data={weekdayData} margin={{ top: 0, right: 0, left: -25, bottom: 0 }}>
               <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
@@ -231,12 +231,12 @@ export default function AdminDashboardClient({ data }: { data: DashboardData }) 
       {/* Recent Orders — Stripe table style */}
       <div className="stat-card">
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.25rem' }}>
-          <h2 style={{ fontSize: '1rem', fontWeight: 700 }}>📋 آخر الطلبات</h2>
+          <h2 style={{ fontSize: '1rem', fontWeight: 700 }}> آخر الطلبات</h2>
           <Link href="/admin/orders" className="btn btn-outline btn-sm">عرض الكل</Link>
         </div>
         {recentOrders.length === 0 ? (
           <div style={{ textAlign: 'center', padding: '3rem', color: 'var(--color-text-muted)' }}>
-            <div style={{ fontSize: '2.5rem', marginBottom: '0.75rem' }}>📦</div>
+            <div style={{ fontSize: '2.5rem', marginBottom: '0.75rem' }}></div>
             <p style={{ fontWeight: 600 }}>لا توجد طلبات بعد</p>
             <p style={{ fontSize: '0.875rem', marginTop: '0.25rem' }}>ستظهر الطلبات هنا عند بدء المبيعات</p>
           </div>

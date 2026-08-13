@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { supabaseAdmin } from '@/lib/supabase-admin'
+import { supabase } from '@/lib/supabase'
 
 interface Variant {
   label: string
@@ -59,13 +59,13 @@ export default function NewProductPage() {
       if (imageFile) {
         const ext = imageFile.name.split('.').pop() || 'jpg'
         const path = `products/${Date.now()}.${ext}`
-        const { error: upErr } = await (supabaseAdmin as any).storage.from('image').upload(path, imageFile, { contentType: imageFile.type })
+        const { error: upErr } = await supabase.storage.from('image').upload(path, imageFile, { contentType: imageFile.type })
         if (upErr) throw upErr
-        const { data } = (supabaseAdmin as any).storage.from('image').getPublicUrl(path)
+        const { data } = supabase.storage.from('image').getPublicUrl(path)
         image_url = data.publicUrl
       }
 
-      const { data: prod, error: dbErr } = await (supabaseAdmin as any).from('products').insert({
+      const { data: prod, error: dbErr } = await supabase.from('products').insert({
         name: form.name,
         description: form.description || null,
         price: parseFloat(form.price),
@@ -90,7 +90,7 @@ export default function NewProductPage() {
           is_active: true,
         }))
         if (variantRows.length > 0) {
-          await (supabaseAdmin as any).from('product_variants').insert(variantRows)
+          await supabase.from('product_variants').insert(variantRows)
         }
       }
 
@@ -118,7 +118,7 @@ export default function NewProductPage() {
             )}
             <label style={{ flex: 1, cursor: 'pointer' }}>
               <div className="upload-zone" style={{ padding: '1.25rem' }}>
-                <div style={{ fontSize: '1.5rem', marginBottom: '0.375rem' }}>📷</div>
+                <div style={{ fontSize: '1.5rem', marginBottom: '0.375rem' }}></div>
                 <p style={{ fontSize: '0.875rem', fontWeight: 600 }}>اختر صورة للمنتج</p>
               </div>
               <input type="file" accept="image/*" onChange={handleImageChange} style={{ display: 'none' }} />
@@ -128,7 +128,7 @@ export default function NewProductPage() {
 
         {/* Video URL */}
         <div className="form-group">
-          <label className="form-label" htmlFor="prod-video">🎬 رابط فيديو أو GIF (اختياري)</label>
+          <label className="form-label" htmlFor="prod-video"> رابط فيديو أو GIF (اختياري)</label>
           <input id="prod-video" className="form-input" type="url" placeholder="https://... (MP4, GIF, YouTube)" value={form.video_url} onChange={e => setForm(f => ({ ...f, video_url: e.target.value }))} dir="ltr" />
           <p style={{ fontSize: '0.75rem', color: 'var(--color-text-muted)', marginTop: '0.25rem' }}>يُعرض في صفحة المنتج بجانب الصورة</p>
         </div>
@@ -146,15 +146,15 @@ export default function NewProductPage() {
         {/* Pricing — 3 columns */}
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '1rem' }}>
           <div className="form-group">
-            <label className="form-label" htmlFor="prod-jemla">💰 سعر الجملة (ثمن التكلفة)</label>
+            <label className="form-label" htmlFor="prod-jemla"> سعر الجملة (ثمن التكلفة)</label>
             <input id="prod-jemla" className="form-input" type="number" step="0.01" min="0" placeholder="2.50" value={form.jemla_price} onChange={e => setForm(f => ({ ...f, jemla_price: e.target.value }))} dir="ltr" style={{ borderColor: 'var(--green-400)' }} />
           </div>
           <div className="form-group">
-            <label className="form-label" htmlFor="prod-price">🏷️ سعر البيع (لدينا) *</label>
+            <label className="form-label" htmlFor="prod-price">️ سعر البيع (لدينا) *</label>
             <input id="prod-price" className="form-input" type="number" step="0.01" min="0" placeholder="7.00" value={form.price} onChange={e => setForm(f => ({ ...f, price: e.target.value }))} required dir="ltr" />
           </div>
           <div className="form-group">
-            <label className="form-label" htmlFor="prod-comp">🏪 سعر المنافسين</label>
+            <label className="form-label" htmlFor="prod-comp"> سعر المنافسين</label>
             <input id="prod-comp" className="form-input" type="number" step="0.01" min="0" placeholder="15.00" value={form.competitor_price} onChange={e => setForm(f => ({ ...f, competitor_price: e.target.value }))} dir="ltr" />
           </div>
         </div>
@@ -182,7 +182,7 @@ export default function NewProductPage() {
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '0.75rem' }}>
             <input id="prod-variants" type="checkbox" checked={form.has_variants} onChange={e => setForm(f => ({ ...f, has_variants: e.target.checked }))} style={{ width: 18, height: 18, accentColor: 'var(--color-primary)' }} />
             <label htmlFor="prod-variants" className="form-label" style={{ margin: 0, cursor: 'pointer', fontWeight: 700 }}>
-              🎨 هذا المنتج له خيارات (ألوان، أحجام، عدد أوراق...)
+               هذا المنتج له خيارات (ألوان، أحجام، عدد أوراق...)
             </label>
           </div>
 
@@ -195,7 +195,7 @@ export default function NewProductPage() {
                   <input className="form-input" placeholder="السعر" type="number" step="0.01" value={v.price} onChange={e => updateVariant(idx, 'price', e.target.value)} dir="ltr" style={{ fontSize: '0.85rem' }} />
                   <input className="form-input" placeholder="الجملة" type="number" step="0.01" value={v.jemla_price} onChange={e => updateVariant(idx, 'jemla_price', e.target.value)} dir="ltr" style={{ fontSize: '0.85rem' }} />
                   <input className="form-input" placeholder="المنافس" type="number" step="0.01" value={v.competitor_price} onChange={e => updateVariant(idx, 'competitor_price', e.target.value)} dir="ltr" style={{ fontSize: '0.85rem' }} />
-                  <button type="button" onClick={() => removeVariant(idx)} style={{ background: '#fee2e2', border: 'none', borderRadius: 'var(--radius-sm)', padding: '0.5rem 0.625rem', cursor: 'pointer', fontSize: '0.875rem' }}>✕</button>
+                  <button type="button" onClick={() => removeVariant(idx)} style={{ background: '#fee2e2', border: 'none', borderRadius: 'var(--radius-sm)', padding: '0.5rem 0.625rem', cursor: 'pointer', fontSize: '0.875rem' }}></button>
                 </div>
               ))}
               <button type="button" className="btn btn-outline btn-sm" onClick={addVariant} style={{ marginTop: '0.5rem' }}>+ إضافة خيار</button>
@@ -212,7 +212,7 @@ export default function NewProductPage() {
 
         <div style={{ display: 'flex', gap: '0.75rem' }}>
           <button type="submit" className="btn btn-primary" disabled={uploading} id="save-product-btn" style={{ flex: 1 }}>
-            {uploading ? '⏳ جارٍ الحفظ...' : '💾 حفظ المنتج'}
+            {uploading ? ' جارٍ الحفظ...' : ' حفظ المنتج'}
           </button>
           <button type="button" className="btn btn-ghost" onClick={() => router.back()}>إلغاء</button>
         </div>

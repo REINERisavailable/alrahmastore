@@ -30,7 +30,7 @@ export function formatPrice(price: number): string {
 }
 
 export function getShippingText(subtotal: number): string {
-  if (subtotal >= 100) return 'توصيل مجاني 🎉'
+  if (subtotal >= 100) return 'توصيل مجاني '
   return 'رسوم التوصيل: 15 إلى 35 درهم (يُحدد عند التأكيد)'
 }
 

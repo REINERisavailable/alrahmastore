@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect, useCallback } from 'react'
-import { supabaseAdmin } from '@/lib/supabase-admin'
+import { supabase } from '@/lib/supabase'
 import { formatPrice } from '@/lib/utils'
 import type { Order } from '@/lib/supabase'
 
@@ -21,7 +21,7 @@ export default function AdminOrdersPage() {
 
   const fetch = useCallback(async () => {
     setLoading(true)
-    let query = (supabaseAdmin as any).from('orders').select('*, order_items(*, products(name))', { count: 'exact' })
+    let query = supabase.from('orders').select('*, order_items(*, products(name))', { count: 'exact' })
       .order('created_at', { ascending: false })
       .range(page * PAGE_SIZE, (page + 1) * PAGE_SIZE - 1)
 
@@ -36,17 +36,17 @@ export default function AdminOrdersPage() {
   useEffect(() => { fetch() }, [fetch])
 
   async function updateStatus(id: string, status: string) {
-    await (supabaseAdmin as any).from('orders').update({ status }).eq('id', id)
+    await supabase.from('orders').update({ status }).eq('id', id)
     setOrders(prev => prev.map(o => o.id === id ? { ...o, status: status as Order['status'] } : o))
   }
 
   return (
     <div>
-      <h1 style={{ fontSize: '1.75rem', fontWeight: 800, color: 'var(--color-primary)', marginBottom: '1.5rem' }}>📦 الطلبات</h1>
+      <h1 style={{ fontSize: '1.75rem', fontWeight: 800, color: 'var(--color-primary)', marginBottom: '1.5rem' }}> الطلبات</h1>
 
       {/* Filters */}
       <div style={{ display: 'flex', gap: '0.75rem', marginBottom: '1.5rem', flexWrap: 'wrap' }}>
-        <input className="form-input" style={{ maxWidth: 240 }} placeholder="🔍 بحث باسم أو رقم هاتف..." value={search} onChange={e => setSearch(e.target.value)} id="orders-search" />
+        <input className="form-input" style={{ maxWidth: 240 }} placeholder=" بحث باسم أو رقم هاتف..." value={search} onChange={e => setSearch(e.target.value)} id="orders-search" />
         <select className="form-select" style={{ maxWidth: 180 }} value={statusFilter} onChange={e => setStatusFilter(e.target.value)} id="orders-status-filter">
           <option value="all">جميع الحالات</option>
           {STATUS_OPTIONS.map(s => <option key={s} value={s}>{STATUS_LABELS[s]}</option>)}
@@ -55,7 +55,7 @@ export default function AdminOrdersPage() {
 
       <div className="stat-card" style={{ overflowX: 'auto' }}>
         {loading ? (
-          <div style={{ padding: '3rem', textAlign: 'center', color: 'var(--color-text-muted)' }}>⏳ جارٍ التحميل...</div>
+          <div style={{ padding: '3rem', textAlign: 'center', color: 'var(--color-text-muted)' }}> جارٍ التحميل...</div>
         ) : orders.length === 0 ? (
           <div style={{ padding: '3rem', textAlign: 'center', color: 'var(--color-text-muted)' }}>لا توجد طلبات</div>
         ) : (
@@ -103,7 +103,7 @@ export default function AdminOrdersPage() {
                       className="btn btn-sm"
                       style={{ background: '#25D366', color: 'white', whiteSpace: 'nowrap' }}
                     >
-                      📱
+                      
                     </a>
                   </td>
                 </tr>

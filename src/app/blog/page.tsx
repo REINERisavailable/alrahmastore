@@ -15,7 +15,7 @@ const ARTICLES = [
     excerpt: 'دليل شامل لأفضل وأرخص الأدوات المدرسية المتوفرة في المغرب لموسم 2026. قارن الأسعار ووفّر أكثر من 70%.',
     date: '2026-08-01',
     readTime: '5 دقائق',
-    emoji: '📚',
+    emoji: '',
   },
   {
     slug: 'tawfir-50-lazim-dirasa-maroc',
@@ -23,7 +23,7 @@ const ARTICLES = [
     excerpt: 'أسرار التسوق الذكي للأدوات المدرسية في المغرب. خطوات عملية لتخفيض فاتورة الدراسة لأكثر من النصف.',
     date: '2026-08-05',
     readTime: '7 دقائق',
-    emoji: '💰',
+    emoji: '',
   },
   {
     slug: 'muqarana-asaar-adawat-madrasiya-maroc',
@@ -31,7 +31,7 @@ const ARTICLES = [
     excerpt: 'مقارنة تفصيلية لأسعار الأدوات المدرسية في مختلف المتاجر المغربية مقابل متجر الرحمة. الأرقام تتحدث.',
     date: '2026-08-08',
     readTime: '6 دقائق',
-    emoji: '📊',
+    emoji: '',
   },
 ]
 
@@ -57,7 +57,7 @@ export default function BlogPage() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(blogListJsonLd) }} />
       <div className="container section" style={{ maxWidth: 800, margin: '0 auto' }}>
         <div style={{ textAlign: 'center', marginBottom: '3rem' }}>
-          <h1 style={{ fontSize: '2.25rem', fontWeight: 900, color: 'var(--color-primary)', marginBottom: '0.75rem' }}>📰 المدونة</h1>
+          <h1 style={{ fontSize: '2.25rem', fontWeight: 900, color: 'var(--color-primary)', marginBottom: '0.75rem' }}> المدونة</h1>
           <p style={{ color: 'var(--color-text-muted)', fontSize: '1.05rem' }}>نصائح وأدلة للتسوق الذكي في المغرب</p>
         </div>
 

@@ -1,14 +1,14 @@
-import { supabaseAdmin } from '@/lib/supabase-admin'
+import { supabase } from '@/lib/supabase'
 import AdminDashboardClient from './AdminDashboardClient'
 
 export const dynamic = 'force-dynamic'
 
 async function getDashboardData() {
   const [ordersRes, photoOrdersRes, productsRes, itemsRes] = await Promise.all([
-    supabaseAdmin.from('orders').select('id, subtotal, total_savings, status, created_at').order('created_at', { ascending: false }),
-    supabaseAdmin.from('photo_orders').select('id, status, created_at').order('created_at', { ascending: false }),
-    supabaseAdmin.from('products').select('id, name, price, jemla_price, competitor_price, is_active'),
-    supabaseAdmin.from('order_items').select('product_id, quantity, unit_price, jemla_unit_price, competitor_unit_price, products(name)'),
+    supabase.from('orders').select('id, subtotal, total_savings, status, created_at').order('created_at', { ascending: false }),
+    supabase.from('photo_orders').select('id, status, created_at').order('created_at', { ascending: false }),
+    supabase.from('products').select('id, name, price, jemla_price, competitor_price, is_active'),
+    supabase.from('order_items').select('product_id, quantity, unit_price, jemla_unit_price, competitor_unit_price, products(name)'),
   ])
 
   const orders = ordersRes.data || []

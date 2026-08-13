@@ -46,7 +46,7 @@ export default function Article3() {
           <Link href="/blog" style={{ color: 'var(--color-primary)', fontWeight: 600, fontSize: '0.9rem', textDecoration: 'none' }}>← العودة للمدونة</Link>
         </div>
         <header style={{ marginBottom: '2.5rem' }}>
-          <div style={{ fontSize: '3.5rem', marginBottom: '1rem' }}>📊</div>
+          <div style={{ fontSize: '3.5rem', marginBottom: '1rem' }}></div>
           <h1 style={{ fontSize: '2rem', fontWeight: 900, color: 'var(--color-primary)', lineHeight: 1.4, marginBottom: '1rem' }}>
             مقارنة أسعار الأدوات المدرسية في المغرب: أين تشتري؟
           </h1>
@@ -80,8 +80,8 @@ export default function Article3() {
               <thead>
                 <tr style={{ background: 'var(--green-700)', color: 'white' }}>
                   <th style={{ padding: '0.875rem', textAlign: 'right' }}>المنتج</th>
-                  <th style={{ padding: '0.875rem', textAlign: 'center' }}>🏪 السوق</th>
-                  <th style={{ padding: '0.875rem', textAlign: 'center' }}>💚 الرحمة</th>
+                  <th style={{ padding: '0.875rem', textAlign: 'center' }}> السوق</th>
+                  <th style={{ padding: '0.875rem', textAlign: 'center' }}> الرحمة</th>
                   <th style={{ padding: '0.875rem', textAlign: 'center' }}>التوفير</th>
                 </tr>
               </thead>
@@ -123,8 +123,8 @@ export default function Article3() {
           <div style={{ background: 'linear-gradient(135deg, var(--green-600), var(--green-800))', color: 'white', borderRadius: 'var(--radius-xl)', padding: '2rem', textAlign: 'center', marginTop: '2rem' }}>
             <h3 style={{ fontSize: '1.4rem', fontWeight: 900, marginBottom: '0.75rem', color: 'white' }}>تحقق من المقارنة بنفسك</h3>
             <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', flexWrap: 'wrap', marginTop: '1rem' }}>
-              <Link href="/savings" className="btn" style={{ background: 'white', color: 'var(--color-primary)', fontWeight: 800 }} id="article3-savings-btn">📊 جدول المقارنة</Link>
-              <Link href="/products" className="btn" style={{ background: 'rgba(255,255,255,0.15)', color: 'white', border: '2px solid rgba(255,255,255,0.5)' }} id="article3-shop-btn">🛍️ تسوق الآن</Link>
+              <Link href="/savings" className="btn" style={{ background: 'white', color: 'var(--color-primary)', fontWeight: 800 }} id="article3-savings-btn"> جدول المقارنة</Link>
+              <Link href="/products" className="btn" style={{ background: 'rgba(255,255,255,0.15)', color: 'white', border: '2px solid rgba(255,255,255,0.5)' }} id="article3-shop-btn">️ تسوق الآن</Link>
             </div>
           </div>
         </div>

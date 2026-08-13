@@ -35,7 +35,7 @@ export default function AdminLoginPage() {
     <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'var(--green-50)', padding: '1rem' }}>
       <div style={{ background: 'white', borderRadius: 'var(--radius-xl)', padding: '2.5rem', width: '100%', maxWidth: 400, boxShadow: 'var(--shadow-xl)', border: '1px solid var(--color-border)' }}>
         <div style={{ textAlign: 'center', marginBottom: '2rem' }}>
-          <div style={{ fontSize: '3rem', marginBottom: '0.75rem' }}>🔐</div>
+          <div style={{ fontSize: '3rem', marginBottom: '0.75rem' }}></div>
           <h1 style={{ fontSize: '1.5rem', marginBottom: '0.375rem' }}>لوحة الإدارة</h1>
           <p style={{ color: 'var(--color-text-muted)', fontSize: '0.875rem' }}>متجر الرحمة — دخول المشرف</p>
         </div>
@@ -62,7 +62,7 @@ export default function AdminLoginPage() {
           )}
 
           <button type="submit" className="btn btn-primary btn-lg w-full" disabled={loading} id="admin-login-btn">
-            {loading ? '⏳ جارٍ التحقق...' : 'دخول →'}
+            {loading ? ' جارٍ التحقق...' : 'دخول →'}
           </button>
         </form>
       </div>

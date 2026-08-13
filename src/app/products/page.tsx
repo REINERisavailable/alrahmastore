@@ -66,7 +66,7 @@ export default function ProductsPage() {
       <div className="container section">
         {/* Header */}
         <div style={{ marginBottom: '2rem' }}>
-          <h1 style={{ marginBottom: '0.5rem' }}>🛍️ جميع المنتجات</h1>
+          <h1 style={{ marginBottom: '0.5rem' }}>️ جميع المنتجات</h1>
           <p style={{ color: 'var(--color-text-muted)' }}>
             {loading ? '...' : `${products.length} منتج`} — أرخص أدوات مدرسية في المغرب
           </p>
@@ -78,7 +78,7 @@ export default function ProductsPage() {
             <input
               type="search"
               className="form-input"
-              placeholder="🔍 ابحث عن منتج..."
+              placeholder=" ابحث عن منتج..."
               value={search}
               onChange={e => setSearch(e.target.value)}
               aria-label="البحث عن منتج"
@@ -108,7 +108,7 @@ export default function ProductsPage() {
           </div>
         ) : products.length === 0 ? (
           <div style={{ textAlign: 'center', padding: '4rem 1rem', color: 'var(--color-text-muted)' }}>
-            <div style={{ fontSize: '3rem', marginBottom: '1rem' }}>🔍</div>
+            <div style={{ fontSize: '3rem', marginBottom: '1rem' }}></div>
             <p style={{ fontWeight: 600 }}>لا توجد نتائج لـ "{debouncedSearch}"</p>
             <button
               className="btn btn-outline"

@@ -82,7 +82,7 @@ export default async function ProductDetailPage({ params }: Props) {
             {product.image_url ? (
               <Image src={product.image_url} alt={product.name} fill style={{ objectFit: 'cover' }} sizes="(max-width: 768px) 100vw, 50vw" priority />
             ) : (
-              <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '6rem' }}>📦</div>
+              <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '6rem' }}></div>
             )}
             {savings.pct > 0 && (
               <div style={{ position: 'absolute', top: '1rem', right: '1rem', background: 'var(--color-primary)', color: 'white', fontWeight: 800, padding: '0.375rem 0.875rem', borderRadius: 'var(--radius-full)', fontSize: '0.9rem' }}>
@@ -109,7 +109,7 @@ export default async function ProductDetailPage({ params }: Props) {
               </div>
               {savings.amount > 0 && (
                 <p style={{ color: 'var(--color-savings)', fontWeight: 700, marginTop: '0.5rem', fontSize: '0.95rem' }}>
-                  ✅ توفّر {formatPrice(savings.amount)} ({savings.pct}%) مقارنة بالمتاجر الأخرى
+                   توفّر {formatPrice(savings.amount)} ({savings.pct}%) مقارنة بالمتاجر الأخرى
                 </p>
               )}
             </div>
@@ -119,9 +119,9 @@ export default async function ProductDetailPage({ params }: Props) {
 
             {/* Shipping info */}
             <div style={{ background: 'var(--green-50)', borderRadius: 'var(--radius-md)', padding: '1rem', fontSize: '0.875rem', color: 'var(--color-text-secondary)' }}>
-              <p>🚚 <strong>التوصيل:</strong> لجميع أنحاء المغرب</p>
-              <p style={{ marginTop: '0.375rem' }}>🎉 مجاني للطلبات فوق 100 درهم</p>
-              <p style={{ marginTop: '0.375rem' }}>📞 نتواصل معك لتأكيد الطلب</p>
+              <p> <strong>التوصيل:</strong> لجميع أنحاء المغرب</p>
+              <p style={{ marginTop: '0.375rem' }}> مجاني للطلبات فوق 100 درهم</p>
+              <p style={{ marginTop: '0.375rem' }}> نتواصل معك لتأكيد الطلب</p>
             </div>
           </div>
         </div>
@@ -139,7 +139,7 @@ export default async function ProductDetailPage({ params }: Props) {
                         <Image src={p.image_url} alt={p.name} fill style={{ objectFit: 'cover' }} sizes="200px" />
                       </div>
                     ) : (
-                      <div style={{ aspectRatio: '1', background: 'var(--green-50)', borderRadius: 'var(--radius-md)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '2rem', marginBottom: '0.75rem' }}>📦</div>
+                      <div style={{ aspectRatio: '1', background: 'var(--green-50)', borderRadius: 'var(--radius-md)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '2rem', marginBottom: '0.75rem' }}></div>
                     )}
                     <p style={{ fontWeight: 700, fontSize: '0.875rem', marginBottom: '0.375rem' }}>{p.name}</p>
                     <p className="price-our" style={{ fontSize: '1rem' }}>{formatPrice(p.price)}</p>

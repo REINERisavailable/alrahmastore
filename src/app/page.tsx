@@ -74,13 +74,13 @@ export default async function HomePage() {
               fontWeight: 700,
               marginBottom: '1rem',
             }}>
-              🔥 عروض حصرية — ينتهي قريبًا!
+               عروض حصرية — ينتهي قريبًا!
             </span>
           </div>
 
           <h1 style={{ color: 'var(--color-primary)', marginBottom: '1rem' }}>
             أرخص متجر للأدوات المدرسية<br />
-            <span style={{ color: 'var(--green-800)' }}>في المغرب 🇲🇦</span>
+            <span style={{ color: 'var(--green-800)' }}>في المغرب </span>
           </h1>
 
           <p style={{ fontSize: '1.15rem', color: 'var(--color-text-secondary)', maxWidth: 520, margin: '0 auto 2rem', lineHeight: 1.7 }}>
@@ -89,20 +89,20 @@ export default async function HomePage() {
 
           <div style={{ display: 'flex', gap: '0.75rem', justifyContent: 'center', flexWrap: 'wrap', marginBottom: '2.5rem' }}>
             <a href="/products" className="btn btn-primary btn-lg" id="shop-now-hero">
-              🛍️ تسوق الآن
+              ️ تسوق الآن
             </a>
             <a href="/order-by-photo" className="btn btn-outline btn-lg" id="order-by-photo-hero">
-              📸 اطلب بصورة
+               اطلب بصورة
             </a>
           </div>
 
           {/* Trust badges */}
           <div style={{ display: 'flex', gap: '1.5rem', justifyContent: 'center', flexWrap: 'wrap', marginBottom: '3rem' }}>
             {[
-              { icon: '🚚', text: 'توصيل لجميع المغرب' },
-              { icon: '💰', text: 'وفّر أكثر من 70%' },
-              { icon: '📞', text: 'تأكيد بواتساب' },
-              { icon: '✅', text: 'جودة مضمونة' },
+              { icon: '', text: 'توصيل لجميع المغرب' },
+              { icon: '', text: 'وفّر أكثر من 70%' },
+              { icon: '', text: 'تأكيد بواتساب' },
+              { icon: '', text: 'جودة مضمونة' },
             ].map(({ icon, text }) => (
               <div key={text} style={{ display: 'flex', alignItems: 'center', gap: '0.375rem', fontSize: '0.875rem', fontWeight: 600, color: 'var(--color-text-secondary)' }}>
                 <span>{icon}</span>
@@ -147,7 +147,7 @@ export default async function HomePage() {
         <div className="container">
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem', flexWrap: 'wrap', gap: '1rem' }}>
             <div>
-              <h2>⭐ أحدث المنتجات</h2>
+              <h2> أحدث المنتجات</h2>
               <p style={{ color: 'var(--color-text-muted)', fontSize: '0.9rem', marginTop: '0.25rem' }}>
                 أرخص الأسعار في المغرب مع ضمان التوفير
               </p>
@@ -171,7 +171,7 @@ export default async function HomePage() {
 
           <div style={{ textAlign: 'center', marginTop: '2.5rem' }}>
             <a href="/products" className="btn btn-primary btn-lg" id="browse-all-bottom">
-              🛍️ تصفح جميع المنتجات
+              ️ تصفح جميع المنتجات
             </a>
           </div>
         </div>
@@ -180,13 +180,13 @@ export default async function HomePage() {
       {/* ===== PHOTO ORDER CTA ===== */}
       <section style={{ background: 'var(--green-50)', padding: '3rem 0', borderTop: '1px solid var(--color-border)', borderBottom: '1px solid var(--color-border)' }}>
         <div className="container" style={{ textAlign: 'center', maxWidth: 600, margin: '0 auto' }}>
-          <div style={{ fontSize: '3rem', marginBottom: '1rem' }}>📸</div>
+          <div style={{ fontSize: '3rem', marginBottom: '1rem' }}></div>
           <h2 style={{ marginBottom: '0.75rem' }}>عندك قائمة مدرسية؟</h2>
           <p style={{ color: 'var(--color-text-secondary)', fontSize: '1.05rem', marginBottom: '1.5rem', lineHeight: 1.7 }}>
             صوّر قائمة مستلزماتك المدرسية وارسلها لنا. سنتواصل معك بالأسعار والتفاصيل على واتساب.
           </p>
           <a href="/order-by-photo" className="btn btn-primary btn-lg" id="photo-order-section-cta">
-            📸 اطلب بصورة الآن
+             اطلب بصورة الآن
           </a>
         </div>
       </section>
@@ -199,10 +199,10 @@ export default async function HomePage() {
           </h2>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '1.5rem' }}>
             {[
-              { icon: '💸', title: 'الأسعار الأقل في المغرب', desc: 'نوفر لك أكثر من 70% مقارنة بأسعار السوق. دفتر بـ3 دراهم بدل 10.' },
-              { icon: '🚚', title: 'توصيل لجميع أنحاء المغرب', desc: 'نوصّل لكل مدن المغرب. مجاني للطلبات فوق 100 درهم.' },
-              { icon: '📱', title: 'تأكيد بواتساب', desc: 'نتصل بك على واتساب لتأكيد طلبك وضمان وصوله بأمان.' },
-              { icon: '📸', title: 'اطلب بصورة', desc: 'صوّر قائمتك المدرسية وارسلها لنا. بدون تعقيد.' },
+              { icon: '', title: 'الأسعار الأقل في المغرب', desc: 'نوفر لك أكثر من 70% مقارنة بأسعار السوق. دفتر بـ3 دراهم بدل 10.' },
+              { icon: '', title: 'توصيل لجميع أنحاء المغرب', desc: 'نوصّل لكل مدن المغرب. مجاني للطلبات فوق 100 درهم.' },
+              { icon: '', title: 'تأكيد بواتساب', desc: 'نتصل بك على واتساب لتأكيد طلبك وضمان وصوله بأمان.' },
+              { icon: '', title: 'اطلب بصورة', desc: 'صوّر قائمتك المدرسية وارسلها لنا. بدون تعقيد.' },
             ].map(({ icon, title, desc }) => (
               <div key={title} style={{
                 background: 'var(--green-50)',

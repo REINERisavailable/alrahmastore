@@ -84,7 +84,7 @@ export default function OrderByPhotoPage() {
       if (dbErr) throw dbErr
 
       // WhatsApp redirect
-      const waMsg = `مرحبا 👋 لقد أرسلت قائمة مستلزماتي المدرسية بالصورة من متجر الرحمة.\n\n📱 رقمي: ${form.phone}\n📍 عنواني: ${form.address}\n\nأنتظر التأكيد 🙏`
+      const waMsg = `مرحبا  لقد أرسلت قائمة مستلزماتي المدرسية بالصورة من متجر الرحمة.\n\n رقمي: ${form.phone}\n عنواني: ${form.address}\n\nأنتظر التأكيد `
       router.push(`/order-success?phone=${form.phone}&wa=${encodeURIComponent(waMsg)}&savings=0`)
     } catch {
       setError('حدث خطأ أثناء رفع الصور. يرجى المحاولة مجددًا.')
@@ -97,7 +97,7 @@ export default function OrderByPhotoPage() {
     <StorefrontLayout>
       <div className="container section" style={{ maxWidth: 640, margin: '0 auto' }}>
         <div style={{ textAlign: 'center', marginBottom: '2rem' }}>
-          <div style={{ fontSize: '4rem', marginBottom: '1rem' }}>📸</div>
+          <div style={{ fontSize: '4rem', marginBottom: '1rem' }}></div>
           <h1 style={{ marginBottom: '0.75rem' }}>اطلب بصورة</h1>
           <p style={{ color: 'var(--color-text-secondary)', fontSize: '1.05rem', lineHeight: 1.8 }}>
             صوّر قائمة مستلزماتك المدرسية (مكتوبة أو مطبوعة) وارسلها لنا. سنتواصل معك على واتساب بالأسعار والتفاصيل.
@@ -108,7 +108,7 @@ export default function OrderByPhotoPage() {
           {/* Image Upload */}
           <div>
             <label className="form-label" style={{ marginBottom: '0.75rem', display: 'block' }}>
-              📸 صور القائمة (حتى 5 صور)
+               صور القائمة (حتى 5 صور)
             </label>
             <div
               className={`upload-zone ${dragging ? 'dragging' : ''}`}
@@ -121,7 +121,7 @@ export default function OrderByPhotoPage() {
               tabIndex={0}
               onKeyDown={e => e.key === 'Enter' && fileInputRef.current?.click()}
             >
-              <div style={{ fontSize: '3rem', marginBottom: '0.75rem' }}>📷</div>
+              <div style={{ fontSize: '3rem', marginBottom: '0.75rem' }}></div>
               <p style={{ fontWeight: 700, marginBottom: '0.375rem' }}>اضغط لاختيار صور أو صوّر مباشرة</p>
               <p style={{ fontSize: '0.8rem', color: 'var(--color-text-muted)' }}>JPG, PNG, HEIC — حتى 10MB لكل صورة</p>
             </div>
@@ -143,7 +143,7 @@ export default function OrderByPhotoPage() {
                   <div key={i} style={{ position: 'relative', aspectRatio: '1', borderRadius: 'var(--radius-md)', overflow: 'hidden', border: '2px solid var(--color-border)' }}>
                     <img src={f.preview} alt={`صورة ${i + 1}`} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                     {f.progress === 100 && (
-                      <div style={{ position: 'absolute', inset: 0, background: 'rgba(22,163,74,0.5)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white', fontSize: '1.5rem' }}>✓</div>
+                      <div style={{ position: 'absolute', inset: 0, background: 'rgba(22,163,74,0.5)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white', fontSize: '1.5rem' }}></div>
                     )}
                     {!loading && (
                       <button
@@ -151,7 +151,7 @@ export default function OrderByPhotoPage() {
                         onClick={() => removeFile(i)}
                         style={{ position: 'absolute', top: 2, left: 2, background: 'rgba(0,0,0,0.6)', color: 'white', border: 'none', borderRadius: '50%', width: 22, height: 22, cursor: 'pointer', fontSize: '0.75rem', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
                         aria-label="حذف الصورة"
-                      >✕</button>
+                      ></button>
                     )}
                   </div>
                 ))}
@@ -188,11 +188,11 @@ export default function OrderByPhotoPage() {
           )}
 
           <button type="submit" className="btn btn-primary btn-lg w-full" disabled={loading} id="submit-photo-order-btn">
-            {loading ? '⏳ جارٍ رفع الصور...' : '📸 إرسال القائمة'}
+            {loading ? ' جارٍ رفع الصور...' : ' إرسال القائمة'}
           </button>
 
           <div style={{ textAlign: 'center', fontSize: '0.8rem', color: 'var(--color-text-muted)' }}>
-            بعد الإرسال سنتواصل معك على واتساب بالأسعار والتفاصيل 🙏
+            بعد الإرسال سنتواصل معك على واتساب بالأسعار والتفاصيل 
           </div>
         </form>
       </div>

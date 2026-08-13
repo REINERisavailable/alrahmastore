@@ -52,7 +52,7 @@ export default function CheckoutClient() {
       await supabase.from('order_items').insert(orderItems)
 
       const itemsList = items.map(({ product, qty }) => `• ${product.name} x${qty} = ${formatPrice(product.price * qty)}`).join('\n')
-      const waMsg = `مرحبا 👋 لقد أرسلت طلبًا من متجر الرحمة.\n\n📦 الطلب:\n${itemsList}\n\n💰 المجموع: ${formatPrice(subtotal)}\n${totalSavings > 0 ? `🎉 وفّرت: ${formatPrice(totalSavings)}\n` : ''}\n📍 العنوان: ${form.address}\n📱 رقم الهاتف: ${form.phone}`
+      const waMsg = `مرحبا  لقد أرسلت طلبًا من متجر الرحمة.\n\n الطلب:\n${itemsList}\n\n المجموع: ${formatPrice(subtotal)}\n${totalSavings > 0 ? ` وفّرت: ${formatPrice(totalSavings)}\n` : ''}\n العنوان: ${form.address}\n رقم الهاتف: ${form.phone}`
 
       clearCart()
       router.push(`/order-success?phone=${form.phone}&wa=${encodeURIComponent(waMsg)}&savings=${totalSavings.toFixed(2)}`)
@@ -66,7 +66,7 @@ export default function CheckoutClient() {
   return (
     <StorefrontLayout>
       <div className="container section" style={{ maxWidth: 700, margin: '0 auto' }}>
-        <h1 style={{ marginBottom: '2rem' }}>✅ إتمام الطلب</h1>
+        <h1 style={{ marginBottom: '2rem' }}> إتمام الطلب</h1>
 
         <div style={{ display: 'grid', gridTemplateColumns: '1fr', gap: '2rem' }}>
           {/* Order Summary */}
@@ -90,7 +90,7 @@ export default function CheckoutClient() {
                 <div style={{ background: 'linear-gradient(135deg, var(--green-600), var(--green-800))', color: 'white', borderRadius: 'var(--radius-md)', padding: '0.75rem 1rem', marginTop: '0.5rem', textAlign: 'center' }}>
                   <div style={{ fontSize: '0.8rem', opacity: 0.9 }}>لو اشريتي من غيرنا</div>
                   <div style={{ textDecoration: 'line-through', opacity: 0.7 }}>{formatPrice(competitorTotal)}</div>
-                  <div style={{ fontWeight: 900, fontSize: '1.25rem', marginTop: '0.25rem' }}>وفّرت {formatPrice(totalSavings)} 🎉</div>
+                  <div style={{ fontWeight: 900, fontSize: '1.25rem', marginTop: '0.25rem' }}>وفّرت {formatPrice(totalSavings)} </div>
                 </div>
               )}
             </div>
@@ -99,7 +99,7 @@ export default function CheckoutClient() {
           {/* Form */}
           <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
             <div style={{ background: 'var(--green-50)', borderRadius: 'var(--radius-md)', padding: '0.875rem 1rem', fontSize: '0.875rem', color: 'var(--color-text-secondary)', display: 'flex', gap: '0.5rem', alignItems: 'flex-start' }}>
-              <span>📞</span>
+              <span></span>
               <span>سنتواصل معك على واتساب لتأكيد طلبك وتحديد رسوم التوصيل إن لزم</span>
             </div>
             <div className="form-group">
@@ -116,7 +116,7 @@ export default function CheckoutClient() {
             </div>
             {error && <div style={{ background: '#fee2e2', color: '#991b1b', borderRadius: 'var(--radius-md)', padding: '0.75rem 1rem', fontSize: '0.875rem', fontWeight: 600 }}>{error}</div>}
             <button type="submit" className="btn btn-primary btn-lg w-full" disabled={loading} id="submit-order-btn">
-              {loading ? '⏳ جارٍ الإرسال...' : '🛒 إرسال الطلب'}
+              {loading ? ' جارٍ الإرسال...' : ' إرسال الطلب'}
             </button>
           </form>
         </div>
