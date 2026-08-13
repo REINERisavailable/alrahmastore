@@ -112,18 +112,6 @@ export default function CartDrawer() {
 
         {view === 'cart' ? (
           <>
-            {totalSavings > 0 && (
-              <div className={styles.savingsBanner}>
-                <div className={styles.savingsText}>
-                  <span> مدخراتك معنا</span>
-                  <strong>{formatPrice(totalSavings)}</strong>
-                </div>
-                <div className={styles.competitorText}>
-                  بدلاً من {formatPrice(competitorTotal)} في المتاجر الأخرى
-                </div>
-              </div>
-            )}
-
             <div className={styles.items}>
               {items.length === 0 ? (
                 <div className={styles.empty}>
@@ -145,11 +133,6 @@ export default function CartDrawer() {
                     <div className={styles.itemInfo}>
                       <p className={styles.itemName}>{product.name}</p>
                       <p className={styles.itemPrice}>{formatPrice(product.price * qty)}</p>
-                      {product.competitor_price && product.competitor_price > product.price && (
-                        <p className={styles.itemSaving}>
-                          وفّرت {formatPrice((product.competitor_price - product.price) * qty)}
-                        </p>
-                      )}
                     </div>
                     <div className={styles.qtyControls}>
                       <button className={styles.qtyBtn} onClick={() => updateQty(product.id, qty - 1)}>−</button>
@@ -175,31 +158,6 @@ export default function CartDrawer() {
               </div>
             )}
 
-            {suggestions.length > 0 && items.length > 0 && (
-              <div style={{ padding: '0.875rem 1rem', borderTop: '1px solid var(--color-border)', background: 'var(--green-50)' }}>
-                <p style={{ fontSize: '0.8rem', fontWeight: 700, color: 'var(--color-text-muted)', marginBottom: '0.625rem' }}>
-                  يشتري العملاء أيضاً
-                </p>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-                  {suggestions.map(prod => (
-                    <div key={prod.id} style={{ display: 'flex', gap: '0.625rem', alignItems: 'center', background: 'white', borderRadius: 'var(--radius-md)', padding: '0.5rem 0.625rem', border: '1px solid var(--color-border)' }}>
-                      <div style={{ width: 40, height: 40, borderRadius: 'var(--radius-sm)', overflow: 'hidden', flexShrink: 0, position: 'relative', background: 'var(--green-50)' }}>
-                        {prod.image_url && <Image src={prod.image_url} alt={prod.name} fill style={{ objectFit: 'cover' }} sizes="40px" />}
-                      </div>
-                      <div style={{ flex: 1, minWidth: 0 }}>
-                        <p style={{ fontSize: '0.8rem', fontWeight: 600, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{prod.name}</p>
-                        <p style={{ fontSize: '0.75rem', color: 'var(--color-primary)', fontWeight: 700 }}>{formatPrice(prod.price)}</p>
-                      </div>
-                      <button
-                        onClick={() => addItem(prod)}
-                        style={{ background: 'var(--color-primary)', color: 'white', border: 'none', borderRadius: 'var(--radius-sm)', padding: '0.35rem 0.625rem', fontSize: '0.75rem', fontWeight: 700, cursor: 'pointer', flexShrink: 0, fontFamily: 'var(--font-arabic)', whiteSpace: 'nowrap' }}
-                      >+ أضف</button>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )}
-
             {items.length > 0 && (
               <div className={styles.footer}>
                 <div className={styles.totals}>
@@ -207,6 +165,12 @@ export default function CartDrawer() {
                     <span>المجموع:</span>
                     <span className={styles.totalAmount}>{formatPrice(subtotal)}</span>
                   </div>
+                  {totalSavings > 0 && (
+                    <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.85rem', color: 'var(--color-text-muted)' }}>
+                      <span>السعر الأصلي:</span>
+                      <span style={{ textDecoration: 'line-through' }}>{formatPrice(competitorTotal)}</span>
+                    </div>
+                  )}
                   <div className={styles.shippingRow}>
                     <span className={isFreeShipping ? styles.freeShipping : styles.shippingNote}>{shippingText}</span>
                   </div>
@@ -228,6 +192,32 @@ export default function CartDrawer() {
                 {getShippingText(subtotal)}
               </div>
             </div>
+
+            {suggestions.length > 0 && items.length > 0 && (
+              <div style={{ marginBottom: '1.5rem' }}>
+                <p style={{ fontSize: '0.9rem', fontWeight: 700, color: 'var(--color-text-primary)', marginBottom: '0.75rem' }}>
+                  مقترحات لك قبل إتمام الطلب:
+                </p>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+                  {suggestions.map(prod => (
+                    <div key={prod.id} style={{ display: 'flex', gap: '0.625rem', alignItems: 'center', background: 'white', borderRadius: 'var(--radius-md)', padding: '0.5rem 0.625rem', border: '1px solid var(--color-border)' }}>
+                      <div style={{ width: 40, height: 40, borderRadius: 'var(--radius-sm)', overflow: 'hidden', flexShrink: 0, position: 'relative', background: 'var(--green-50)' }}>
+                        {prod.image_url && <Image src={prod.image_url} alt={prod.name} fill style={{ objectFit: 'cover' }} sizes="40px" />}
+                      </div>
+                      <div style={{ flex: 1, minWidth: 0 }}>
+                        <p style={{ fontSize: '0.8rem', fontWeight: 600, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{prod.name}</p>
+                        <p style={{ fontSize: '0.75rem', color: 'var(--color-primary)', fontWeight: 700 }}>{formatPrice(prod.price)}</p>
+                      </div>
+                      <button
+                        type="button"
+                        onClick={() => addItem(prod)}
+                        style={{ background: 'var(--color-primary)', color: 'white', border: 'none', borderRadius: 'var(--radius-sm)', padding: '0.35rem 0.625rem', fontSize: '0.75rem', fontWeight: 700, cursor: 'pointer', flexShrink: 0, fontFamily: 'var(--font-arabic)', whiteSpace: 'nowrap' }}
+                      >+ أضف</button>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
 
             <form onSubmit={handleCheckoutSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
               <div className="form-group">

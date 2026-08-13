@@ -51,21 +51,21 @@ export default function NewProductPage() {
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
     setError('')
-    if (!form.name.trim() || !form.price) { setError('يرجى ملء الاسم والسعر'); return }
-
     setUploading(true)
     try {
-      let image_url: string | null = null
+      let image_url = null
+
       if (imageFile) {
         const ext = imageFile.name.split('.').pop() || 'jpg'
         const path = `products/${Date.now()}.${ext}`
-        const { error: upErr } = await supabase.storage.from('image').upload(path, imageFile, { contentType: imageFile.type })
-        if (upErr) throw upErr
-        const { data } = supabase.storage.from('image').getPublicUrl(path)
-        image_url = data.publicUrl
+        const formData = new FormData()
+        formData.append('file', imageFile)
+        formData.append('path', path)
+        const { uploadImageAction } = await import('@/app/admin/actions')
+        image_url = await uploadImageAction(formData)
       }
 
-      const { data: prod, error: dbErr } = await supabase.from('products').insert({
+      const productData = {
         name: form.name,
         description: form.description || null,
         price: parseFloat(form.price),
@@ -75,28 +75,14 @@ export default function NewProductPage() {
         image_url,
         has_variants: form.has_variants,
         is_active: form.is_active,
-      }).select().single()
-
-      if (dbErr) throw dbErr
-
-      // Insert variants if any
-      if (form.has_variants && variants.length > 0) {
-        const variantRows = variants.filter(v => v.label.trim()).map(v => ({
-          product_id: prod.id,
-          label: v.label,
-          price: parseFloat(v.price) || parseFloat(form.price),
-          jemla_price: v.jemla_price ? parseFloat(v.jemla_price) : null,
-          competitor_price: v.competitor_price ? parseFloat(v.competitor_price) : null,
-          is_active: true,
-        }))
-        if (variantRows.length > 0) {
-          await supabase.from('product_variants').insert(variantRows)
-        }
       }
 
+      const { insertProductAction } = await import('@/app/admin/actions')
+      await insertProductAction(productData, variants, form.has_variants)
+
       router.push('/admin/products')
-    } catch (err: any) {
-      setError(`حدث خطأ: ${err.message || 'يرجى المحاولة مجددًا'}`)
+    } catch {
+      setError('حدث خطأ أثناء الإضافة')
     } finally {
       setUploading(false)
     }

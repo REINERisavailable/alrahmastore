@@ -108,13 +108,14 @@ export default function EditProductPage() {
       if (imageFile) {
         const ext = imageFile.name.split('.').pop() || 'jpg'
         const path = `products/${Date.now()}.${ext}`
-        const { error: upErr } = await supabase.storage.from('image').upload(path, imageFile, { contentType: imageFile.type })
-        if (upErr) throw upErr
-        const { data } = supabase.storage.from('image').getPublicUrl(path)
-        image_url = data.publicUrl
+        const formData = new FormData()
+        formData.append('file', imageFile)
+        formData.append('path', path)
+        const { uploadImageAction } = await import('@/app/admin/actions')
+        image_url = await uploadImageAction(formData)
       }
 
-      const { error: dbErr } = await supabase.from('products').update({
+      const productData = {
         name: form.name,
         description: form.description || null,
         price: parseFloat(form.price),
@@ -124,29 +125,10 @@ export default function EditProductPage() {
         image_url,
         has_variants: form.has_variants,
         is_active: form.is_active,
-      }).eq('id', id)
-
-      if (dbErr) throw dbErr
-
-      if (form.has_variants && variants.length > 0) {
-        // Simple approach: delete existing variants and re-insert to avoid complex diffing
-        await supabase.from('product_variants').delete().eq('product_id', id)
-
-        const variantRows = variants.filter(v => v.label.trim()).map(v => ({
-          product_id: id,
-          label: v.label,
-          price: parseFloat(v.price) || parseFloat(form.price),
-          jemla_price: v.jemla_price ? parseFloat(v.jemla_price) : null,
-          competitor_price: v.competitor_price ? parseFloat(v.competitor_price) : null,
-          is_active: true,
-        }))
-        
-        if (variantRows.length > 0) {
-          await supabase.from('product_variants').insert(variantRows)
-        }
-      } else {
-        await supabase.from('product_variants').delete().eq('product_id', id)
       }
+
+      const { updateProductAction } = await import('@/app/admin/actions')
+      await updateProductAction(id, productData, variants, form.has_variants)
 
       router.push('/admin/products')
     } catch {

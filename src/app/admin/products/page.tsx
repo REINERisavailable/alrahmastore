@@ -39,13 +39,15 @@ export default function AdminProductsPage() {
   useEffect(() => { fetchProducts() }, [fetchProducts])
 
   async function toggleActive(id: string, current: boolean) {
-    await supabase.from('products').update({ is_active: !current }).eq('id', id)
+    const { toggleProductActiveAction } = await import('@/app/admin/actions')
+    await toggleProductActiveAction(id, current)
     setProducts(prev => prev.map(p => p.id === id ? { ...p, is_active: !current } : p))
   }
 
   async function deleteProduct(id: string, name: string) {
     if (!confirm(`هل أنت متأكد من حذف "${name}"؟`)) return
-    await supabase.from('products').delete().eq('id', id)
+    const { deleteProductAction } = await import('@/app/admin/actions')
+    await deleteProductAction(id)
     setProducts(prev => prev.filter(p => p.id !== id))
   }
 
@@ -149,8 +151,8 @@ export default function AdminProductsPage() {
                     </td>
                     <td>
                       <div style={{ display: 'flex', gap: '0.375rem' }}>
-                        <Link href={`/admin/products/${product.id}`} className="btn btn-outline btn-sm">️</Link>
-                        <button className="btn btn-sm" style={{ background: '#fee2e2', color: '#991b1b', border: 'none' }} onClick={() => deleteProduct(product.id, product.name)}></button>
+                        <Link href={`/admin/products/${product.id}`} className="btn btn-outline btn-sm">تعديل</Link>
+                        <button className="btn btn-sm" style={{ background: '#fee2e2', color: '#991b1b', border: 'none' }} onClick={() => deleteProduct(product.id, product.name)}>حذف</button>
                       </div>
                     </td>
                   </tr>
