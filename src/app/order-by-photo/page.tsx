@@ -72,13 +72,20 @@ export default function OrderByPhotoPage() {
       }
 
       // Save photo order via Server Action
-      await createPhotoOrderAction({
+      const result = await createPhotoOrderAction({
         customer_name: form.name,
         phone: form.phone,
         address: form.address,
         image_urls: urls,
         status: 'pending_review',
       })
+      
+      if (!result.success) {
+        console.error('Server Action Error:', result.error)
+        setError(result.error || 'فشل في إنشاء الطلب بالصورة (Unknown Error)')
+        setLoading(false)
+        return
+      }
 
       // WhatsApp redirect
       const waMsg = `مرحبا  لقد أرسلت قائمة مستلزماتي المدرسية بالصورة من متجر الرحمة.\n\n رقمي: ${form.phone}\n عنواني: ${form.address}\n\nأنتظر التأكيد `

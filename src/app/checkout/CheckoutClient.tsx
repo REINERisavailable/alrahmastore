@@ -51,7 +51,14 @@ export default function CheckoutClient() {
         competitor_unit_price: product.competitor_price,
       }))
       
-      await createOrderAction(orderData, orderItems)
+      const result = await createOrderAction(orderData, orderItems)
+      
+      if (!result.success) {
+        console.error('Server Action Error:', result.error)
+        setError(result.error || 'فشل في الحفظ (Unknown Error)')
+        setLoading(false)
+        return
+      }
 
       const itemsList = items.map(({ product, qty }) => `• ${product.name} x${qty} = ${formatPrice(product.price * qty)}`).join('\n')
       const waMsg = `مرحبا  لقد أرسلت طلبًا من متجر الرحمة.\n\n الطلب:\n${itemsList}\n\n المجموع: ${formatPrice(subtotal)}\n${totalSavings > 0 ? ` وفّرت: ${formatPrice(totalSavings)}\n` : ''}\n العنوان: ${form.address}\n رقم الهاتف: ${form.phone}`
