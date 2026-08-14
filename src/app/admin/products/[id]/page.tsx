@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react'
 import { useRouter, useParams } from 'next/navigation'
 import { supabase } from '@/lib/supabase'
 import type { Product } from '@/lib/supabase'
-import { updateProductAction, uploadImageAction } from '@/app/admin/actions'
+import { updateProductAction, uploadImageAction, getProductAction } from '@/app/admin/actions'
 
 interface Variant {
   id?: number
@@ -34,37 +34,37 @@ export default function EditProductPage() {
   useEffect(() => {
     async function load() {
       try {
-        const { data: prod, error: err1 } = await supabase.from('products').select('*').eq('id', id).single()
-        if (err1) throw err1
+        const { prod, vars } = await getProductAction(id)
         
-        if (prod) {
-          setForm({
-            name: prod.name,
-            description: prod.description || '',
-            price: String(prod.price),
-            competitor_price: prod.competitor_price ? String(prod.competitor_price) : '',
-            jemla_price: prod.jemla_price ? String(prod.jemla_price) : '',
-            video_url: prod.video_url || '',
-            is_active: prod.is_active,
-            has_variants: prod.has_variants || false,
-          })
-          setCurrentImageUrl(prod.image_url)
-          setImagePreview(prod.image_url)
+        if (!prod) {
+          alert('المنتج غير موجود')
+          router.push('/admin/products')
+          return
+        }
 
-          if (prod.has_variants) {
-            const { data: vars } = await supabase.from('product_variants').select('*').eq('product_id', id)
-            if (vars && vars.length > 0) {
-              setVariants(vars.map((v: any) => ({
-                id: v.id,
-                label: v.label,
-                price: String(v.price),
-                jemla_price: v.jemla_price ? String(v.jemla_price) : '',
-                competitor_price: v.competitor_price ? String(v.competitor_price) : ''
-              })))
-            } else {
-              setVariants([{ label: '', price: String(prod.price), jemla_price: prod.jemla_price ? String(prod.jemla_price) : '', competitor_price: prod.competitor_price ? String(prod.competitor_price) : '' }])
-            }
-          }
+        setForm({
+          name: prod.name,
+          description: prod.description || '',
+          price: prod.price.toString(),
+          competitor_price: prod.competitor_price?.toString() || '',
+          jemla_price: prod.jemla_price?.toString() || '',
+          video_url: prod.video_url || '',
+          is_active: prod.is_active,
+          has_variants: prod.has_variants || false,
+        })
+        setCurrentImageUrl(prod.image_url)
+        setImagePreview(prod.image_url)
+
+        if (vars && vars.length > 0) {
+          setVariants(vars.map((v: any) => ({
+            id: v.id,
+            label: v.label,
+            price: v.price.toString(),
+            jemla_price: v.jemla_price ? v.jemla_price.toString() : '',
+            competitor_price: v.competitor_price ? v.competitor_price.toString() : ''
+          })))
+        } else if (prod.has_variants) {
+          setVariants([{ label: '', price: String(prod.price), jemla_price: prod.jemla_price ? String(prod.jemla_price) : '', competitor_price: prod.competitor_price ? String(prod.competitor_price) : '' }])
         }
       } catch (err) {
         console.error(err)

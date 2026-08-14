@@ -6,7 +6,7 @@ import Image from 'next/image'
 import { supabase } from '@/lib/supabase'
 import { formatPrice, calcSavings } from '@/lib/utils'
 import type { Product } from '@/lib/supabase'
-import { toggleProductActiveAction, deleteProductAction } from '@/app/admin/actions'
+import { toggleProductActiveAction, deleteProductAction, getProductsAction } from '@/app/admin/actions'
 
 function calcMargin(price: number, jemla: number | null): string {
   if (!jemla || jemla <= 0 || price <= 0) return '—'
@@ -26,7 +26,7 @@ export default function AdminProductsPage() {
 
   const fetchProducts = useCallback(async () => {
     setLoading(true)
-    const { data } = await supabase.from('products').select('*').order('created_at', { ascending: false })
+    const { data } = await getProductsAction()
     const prods = data || []
     setProducts(prods)
     // Mini analytics

@@ -4,7 +4,7 @@ import { useState, useEffect, useCallback } from 'react'
 import { supabase } from '@/lib/supabase'
 import { formatPrice } from '@/lib/utils'
 import type { Order } from '@/lib/supabase'
-import { updateOrderStatusAction } from '@/app/admin/actions'
+import { updateOrderStatusAction, getOrdersAction } from '@/app/admin/actions'
 
 const STATUS_OPTIONS = ['pending', 'confirmed', 'shipped', 'delivered', 'cancelled']
 const STATUS_LABELS: Record<string, string> = {
@@ -24,14 +24,7 @@ export default function AdminOrdersPage() {
   
   const fetch = useCallback(async () => {
     setLoading(true)
-    let query = supabase.from('orders').select('*, order_items(*, products(name))', { count: 'exact' })
-      .order('created_at', { ascending: false })
-      .range(page * PAGE_SIZE, (page + 1) * PAGE_SIZE - 1)
-
-    if (statusFilter !== 'all') query = query.eq('status', statusFilter)
-    if (search) query = query.or(`phone.ilike.%${search}%,customer_name.ilike.%${search}%`)
-
-    const { data } = await query
+    const { data } = await getOrdersAction(page, PAGE_SIZE, search, statusFilter)
     setOrders(data || [])
     setLoading(false)
   }, [search, statusFilter, page])

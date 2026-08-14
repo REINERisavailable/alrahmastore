@@ -100,3 +100,76 @@ export async function updatePhotoOrderAction(id: string, updates: any) {
     throw new Error('فشل تحديث الطلب')
   }
 }
+
+export async function getOrdersAction(page: number, pageSize: number, search?: string, statusFilter?: string) {
+  await checkAuth()
+  let query = supabaseAdmin
+    .from('orders')
+    .select('*, order_items(*, products(name))', { count: 'exact' })
+    .order('created_at', { ascending: false })
+    .range(page * pageSize, (page + 1) * pageSize - 1)
+  
+  if (statusFilter && statusFilter !== 'all') {
+    query = query.eq('status', statusFilter)
+  }
+  if (search) {
+    query = query.or(`phone.ilike.%${search}%,customer_name.ilike.%${search}%`)
+  }
+
+  const { data, count, error } = await query
+  
+  if (error) {
+    console.error('Error fetching orders:', error)
+    return { data: [], count: 0 }
+  }
+  return { data: data || [], count: count || 0 }
+}
+
+export async function getPhotoOrdersAction() {
+  await checkAuth()
+  const { data, error } = await supabaseAdmin
+    .from('photo_orders')
+    .select('*')
+    .order('created_at', { ascending: false })
+    
+  if (error) {
+    console.error('Error fetching photo orders:', error)
+    return { data: [] }
+  }
+  return { data: data || [] }
+}
+
+export async function getProductsAction() {
+  await checkAuth()
+  const { data, error } = await supabaseAdmin
+    .from('products')
+    .select('*')
+    .order('created_at', { ascending: false })
+    
+  if (error) {
+    console.error('Error fetching products:', error)
+    return { data: [] }
+  }
+  return { data: data || [] }
+}
+
+export async function getProductAction(id: string) {
+  await checkAuth()
+  const { data: prod, error: err1 } = await supabaseAdmin
+    .from('products')
+    .select('*')
+    .eq('id', id)
+    .single()
+    
+  if (err1 || !prod) {
+    console.error('Error fetching product:', err1)
+    return { prod: null, vars: [] }
+  }
+
+  const { data: vars } = await supabaseAdmin
+    .from('product_variants')
+    .select('*')
+    .eq('product_id', id)
+
+  return { prod, vars: vars || [] }
+}

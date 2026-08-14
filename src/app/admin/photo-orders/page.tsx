@@ -4,7 +4,7 @@ import { useState, useEffect, useCallback } from 'react'
 import Image from 'next/image'
 import { supabase } from '@/lib/supabase'
 import type { PhotoOrder } from '@/lib/supabase'
-import { updatePhotoOrderAction } from '@/app/admin/actions'
+import { updatePhotoOrderAction, getPhotoOrdersAction } from '@/app/admin/actions'
 
 const STATUS_OPTIONS = ['pending_review', 'contacted', 'confirmed', 'completed', 'cancelled']
 const STATUS_LABELS: Record<string, string> = {
@@ -23,7 +23,7 @@ export default function AdminPhotoOrdersPage() {
 
   const fetchOrders = useCallback(async () => {
     setLoading(true)
-    const { data } = await supabase.from('photo_orders').select('*').order('created_at', { ascending: false })
+    const { data } = await getPhotoOrdersAction()
     setOrders(data || [])
     setLoading(false)
   }, [])
