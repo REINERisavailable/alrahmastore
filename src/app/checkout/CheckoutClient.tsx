@@ -1,11 +1,11 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { useCart } from '@/context/CartContext'
 import StorefrontLayout from '@/components/StorefrontLayout'
-import { formatPrice, getShippingText, WHATSAPP_NUMBER } from '@/lib/utils'
-import { supabase } from '@/lib/supabase'
+import { formatPrice, getShippingText } from '@/lib/utils'
+import { createOrderAction } from '@/app/actions'
 
 export default function CheckoutClient() {
   const { items, subtotal, competitorTotal, totalSavings, clearCart } = useCart()
@@ -15,10 +15,14 @@ export default function CheckoutClient() {
   const [error, setError] = useState('')
   const isFreeShipping = subtotal >= 100
 
-  if (items.length === 0) {
-    router.replace('/products')
-    return null
-  }
+  useEffect(() => {
+    // Only redirect if mounted and items are explicitly 0
+    if (items && items.length === 0) {
+      router.replace('/products')
+    }
+  }, [items, router])
+
+  if (!items || items.length === 0) return null
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
@@ -29,7 +33,7 @@ export default function CheckoutClient() {
     }
     setLoading(true)
     try {
-      const { data: order, error: orderErr } = await supabase.from('orders').insert({
+      const orderData = {
         customer_name: form.name,
         phone: form.phone,
         address: form.address,
@@ -37,19 +41,17 @@ export default function CheckoutClient() {
         shipping_fee: isFreeShipping ? 0 : null,
         total_savings: totalSavings,
         status: 'pending',
-      }).select().single()
-
-      if (orderErr || !order) throw new Error('فشل في إنشاء الطلب')
-
+      }
+      
       const orderItems = items.map(({ product, qty }) => ({
-        order_id: order.id,
         product_id: product.id,
         quantity: qty,
         unit_price: product.price,
         jemla_unit_price: product.jemla_price || null,
         competitor_unit_price: product.competitor_price,
       }))
-      await supabase.from('order_items').insert(orderItems)
+      
+      await createOrderAction(orderData, orderItems)
 
       const itemsList = items.map(({ product, qty }) => `• ${product.name} x${qty} = ${formatPrice(product.price * qty)}`).join('\n')
       const waMsg = `مرحبا  لقد أرسلت طلبًا من متجر الرحمة.\n\n الطلب:\n${itemsList}\n\n المجموع: ${formatPrice(subtotal)}\n${totalSavings > 0 ? ` وفّرت: ${formatPrice(totalSavings)}\n` : ''}\n العنوان: ${form.address}\n رقم الهاتف: ${form.phone}`
@@ -83,8 +85,8 @@ export default function CheckoutClient() {
                 <span>المجموع</span>
                 <span style={{ color: 'var(--color-primary)' }}>{formatPrice(subtotal)}</span>
               </div>
-              <div style={{ fontSize: '0.8rem', color: isFreeShipping ? 'var(--color-savings)' : 'var(--color-text-muted)', fontWeight: 600 }}>
-                {getShippingText(subtotal)}
+              <div style={{ fontSize: '0.875rem', color: isFreeShipping ? 'var(--color-savings)' : 'var(--color-text-muted)', fontWeight: 600 }}>
+                {getShippingText()}
               </div>
               {totalSavings > 0 && (
                 <div style={{ background: 'linear-gradient(135deg, var(--green-600), var(--green-800))', color: 'white', borderRadius: 'var(--radius-md)', padding: '0.75rem 1rem', marginTop: '0.5rem', textAlign: 'center' }}>

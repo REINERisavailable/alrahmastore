@@ -8,6 +8,7 @@ import { useCart } from '@/context/CartContext'
 import { formatPrice, getShippingText } from '@/lib/utils'
 import { supabase } from '@/lib/supabase'
 import type { Product } from '@/lib/supabase'
+import { createOrderAction } from '@/app/actions'
 import styles from './CartDrawer.module.css'
 
 export default function CartDrawer() {
@@ -25,7 +26,7 @@ export default function CartDrawer() {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
 
-  const shippingText = getShippingText(subtotal)
+  const shippingText = getShippingText()
   const isFreeShipping = subtotal >= 100
 
   // Reset to cart view when opened
@@ -56,27 +57,25 @@ export default function CartDrawer() {
     }
     setLoading(true)
     try {
-      const { data: order, error: orderErr } = await supabase.from('orders').insert({
+      const orderData = {
         customer_name: form.name,
         phone: form.phone,
         address: form.address,
         subtotal,
-        shipping_fee: isFreeShipping ? 0 : null,
+        shipping_fee: null, // Always 15-35dh TBD
         total_savings: totalSavings,
         status: 'pending',
-      }).select().single()
-
-      if (orderErr || !order) throw new Error('فشل في إنشاء الطلب')
+      }
 
       const orderItems = items.map(({ product, qty }) => ({
-        order_id: order.id,
         product_id: product.id,
         quantity: qty,
         unit_price: product.price,
         jemla_unit_price: product.jemla_price || null,
         competitor_unit_price: product.competitor_price,
       }))
-      await supabase.from('order_items').insert(orderItems)
+      
+      await createOrderAction(orderData, orderItems)
 
       const itemsList = items.map(({ product, qty }) => `- ${product.name} x${qty} = ${formatPrice(product.price * qty)}`).join('\n')
       const waMsg = `مرحبا لقد أرسلت طلبًا من متجر الرحمة.\n\nالطلب:\n${itemsList}\n\nالمجموع: ${formatPrice(subtotal)}\n${totalSavings > 0 ? `وفّرت: ${formatPrice(totalSavings)}\n` : ''}\nالعنوان: ${form.address}\nرقم الهاتف: ${form.phone}`

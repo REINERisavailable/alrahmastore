@@ -21,3 +21,49 @@ export async function uploadPublicImageAction(formData: FormData) {
   const { data } = supabaseAdmin.storage.from('image').getPublicUrl(path)
   return data.publicUrl
 }
+
+// Public server action for creating a normal order and its items
+export async function createOrderAction(orderData: any, orderItems: any[]) {
+  const { data: order, error: orderErr } = await supabaseAdmin
+    .from('orders')
+    .insert(orderData)
+    .select()
+    .single()
+
+  if (orderErr || !order) {
+    console.error('Error creating order:', orderErr)
+    throw new Error('فشل في إنشاء الطلب')
+  }
+
+  const itemsToInsert = orderItems.map(item => ({
+    ...item,
+    order_id: order.id
+  }))
+
+  const { error: itemsErr } = await supabaseAdmin
+    .from('order_items')
+    .insert(itemsToInsert)
+
+  if (itemsErr) {
+    console.error('Error inserting order items:', itemsErr)
+    throw new Error('فشل في حفظ المنتجات في الطلب')
+  }
+
+  return order
+}
+
+// Public server action for creating a photo order
+export async function createPhotoOrderAction(orderData: any) {
+  const { data: photoOrder, error: dbErr } = await supabaseAdmin
+    .from('photo_orders')
+    .insert(orderData)
+    .select()
+    .single()
+
+  if (dbErr) {
+    console.error('Error creating photo order:', dbErr)
+    throw new Error('فشل في إنشاء الطلب بالصورة')
+  }
+
+  return photoOrder
+}

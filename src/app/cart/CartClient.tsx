@@ -8,7 +8,7 @@ import { formatPrice, getShippingText } from '@/lib/utils'
 
 export default function CartClient() {
   const { items, updateQty, removeItem, subtotal, competitorTotal, totalSavings, totalItems } = useCart()
-  const shippingText = getShippingText(subtotal)
+  const shippingText = getShippingText()
   const isFreeShipping = subtotal >= 100
 
   if (totalItems === 0) {

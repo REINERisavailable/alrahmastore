@@ -82,3 +82,21 @@ export async function uploadImageAction(formData: FormData) {
   const { data } = supabaseAdmin.storage.from('image').getPublicUrl(path)
   return data.publicUrl
 }
+
+export async function updateOrderStatusAction(id: string, status: string) {
+  await checkAuth()
+  const { error } = await supabaseAdmin.from('orders').update({ status }).eq('id', id)
+  if (error) {
+    console.error('Error updating order status:', error)
+    throw new Error('فشل تحديث حالة الطلب')
+  }
+}
+
+export async function updatePhotoOrderAction(id: string, updates: any) {
+  await checkAuth()
+  const { error } = await supabaseAdmin.from('photo_orders').update(updates).eq('id', id)
+  if (error) {
+    console.error('Error updating photo order:', error)
+    throw new Error('فشل تحديث الطلب')
+  }
+}

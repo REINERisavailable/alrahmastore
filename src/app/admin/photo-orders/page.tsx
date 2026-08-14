@@ -4,6 +4,7 @@ import { useState, useEffect, useCallback } from 'react'
 import Image from 'next/image'
 import { supabase } from '@/lib/supabase'
 import type { PhotoOrder } from '@/lib/supabase'
+import { updatePhotoOrderAction } from '@/app/admin/actions'
 
 const STATUS_OPTIONS = ['pending_review', 'contacted', 'confirmed', 'completed', 'cancelled']
 const STATUS_LABELS: Record<string, string> = {
@@ -30,13 +31,22 @@ export default function AdminPhotoOrdersPage() {
   useEffect(() => { fetchOrders() }, [fetchOrders])
 
   async function updateStatus(id: string, status: string) {
-    await supabase.from('photo_orders').update({ status }).eq('id', id)
-    setOrders(prev => prev.map(o => o.id === id ? { ...o, status: status as PhotoOrder['status'] } : o))
-    if (selected?.id === id) setSelected(prev => prev ? { ...prev, status: status as PhotoOrder['status'] } : null)
+    try {
+      await updatePhotoOrderAction(id, { status })
+      setOrders(prev => prev.map(o => o.id === id ? { ...o, status: status as any } : o))
+      if (selected?.id === id) setSelected(prev => prev ? { ...prev, status: status as PhotoOrder['status'] } : null)
+    } catch {
+      alert('فشل تحديث الحالة')
+    }
   }
 
   async function saveNotes(id: string, notes: string) {
-    await supabase.from('photo_orders').update({ notes }).eq('id', id)
+    try {
+      await updatePhotoOrderAction(id, { notes })
+      setOrders(prev => prev.map(o => o.id === id ? { ...o, notes } : o))
+    } catch {
+      alert('فشل تحديث الملاحظات')
+    }
   }
 
   return (

@@ -4,6 +4,7 @@ import { useState, useEffect, useCallback } from 'react'
 import { supabase } from '@/lib/supabase'
 import { formatPrice } from '@/lib/utils'
 import type { Order } from '@/lib/supabase'
+import { updateOrderStatusAction } from '@/app/admin/actions'
 
 const STATUS_OPTIONS = ['pending', 'confirmed', 'shipped', 'delivered', 'cancelled']
 const STATUS_LABELS: Record<string, string> = {
@@ -19,6 +20,8 @@ export default function AdminOrdersPage() {
   const [page, setPage] = useState(0)
   const PAGE_SIZE = 20
 
+  const [loadingAction, setLoadingAction] = useState<string | null>(null)
+  
   const fetch = useCallback(async () => {
     setLoading(true)
     let query = supabase.from('orders').select('*, order_items(*, products(name))', { count: 'exact' })
@@ -36,8 +39,15 @@ export default function AdminOrdersPage() {
   useEffect(() => { fetch() }, [fetch])
 
   async function updateStatus(id: string, status: string) {
-    await supabase.from('orders').update({ status }).eq('id', id)
-    setOrders(prev => prev.map(o => o.id === id ? { ...o, status: status as Order['status'] } : o))
+    setLoadingAction(id)
+    try {
+      await updateOrderStatusAction(id, status)
+      setOrders(prev => prev.map(o => o.id === id ? { ...o, status: status as any } : o))
+    } catch (err) {
+      alert('فشل تحديث الحالة')
+    } finally {
+      setLoadingAction(null)
+    }
   }
 
   return (

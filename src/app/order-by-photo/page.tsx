@@ -6,7 +6,7 @@ import Image from 'next/image'
 import StorefrontLayout from '@/components/StorefrontLayout'
 import { supabase } from '@/lib/supabase'
 import { WHATSAPP_NUMBER } from '@/lib/utils'
-import { uploadPublicImageAction } from '@/app/actions'
+import { uploadPublicImageAction, createPhotoOrderAction } from '@/app/actions'
 
 interface UploadedFile {
   file: File
@@ -71,15 +71,14 @@ export default function OrderByPhotoPage() {
         setFiles(prev => prev.map((f, j) => j === i ? { ...f, progress: 100 } : f))
       }
 
-      // Save photo order
-      const { error: dbErr } = await supabase.from('photo_orders').insert({
+      // Save photo order via Server Action
+      await createPhotoOrderAction({
         customer_name: form.name,
         phone: form.phone,
         address: form.address,
         image_urls: urls,
         status: 'pending_review',
       })
-      if (dbErr) throw dbErr
 
       // WhatsApp redirect
       const waMsg = `مرحبا  لقد أرسلت قائمة مستلزماتي المدرسية بالصورة من متجر الرحمة.\n\n رقمي: ${form.phone}\n عنواني: ${form.address}\n\nأنتظر التأكيد `
